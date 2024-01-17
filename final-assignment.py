@@ -97,3 +97,21 @@ def plot_trend(city_pair_data, canvas):
 
     # Update the canvas with new plot of the city pair passenger trips trend
     update_canvas(fig, canvas)
+
+# Function to compare two city pairs
+def compare_two_city_pairs(pair1, pair2, canvas):
+
+    # Set up the figure for plotting
+    fig, ax = plt.subplots(figsize=(5, 4))
+
+    # Loop through each city pair and plot their data
+    for pair in [pair1, pair2]:
+        city1, city2 = pair.split(' - ')
+
+        # Use the get_city_pair_data function to retrieve data for each city pair
+        pair_data = get_city_pair_data(city1, city2)
+
+        # Continue only if there is data for the city pair
+        if pair_data is not None:
+            ax.plot(pair_data['Date'], pair_data['Passenger_Trips'], label=f"{city1} - {city2}")
+
