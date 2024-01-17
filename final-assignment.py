@@ -138,3 +138,81 @@ def compare_two_city_pairs(pair1, pair2, canvas):
     # Update the canvas with the new plot of the passenger trips trends of the two city pairs
     update_canvas(fig, canvas)
 
+
+def analyze_load_factor(city1, city2, canvas):
+    """
+    Analyze and plot the load factor for a specific city pair.
+    Retrieves the data for the given city pair from the global 'data' DataFrame and plots the load factor over time. 
+    If no data is found, a popup will alert the user.
+
+    Arguments:
+
+    city1: The first city in the city pair.
+
+    city2: The second city in the city pair.
+
+    canvas: The Tkinter canvas object to update with the plot.
+
+    Output:
+        A matplotlib figure will be updated on the canvas showing the trend of load factor over time for the
+        specified city pair. The figure includes a line plot with the dates of flights on the x-axis and the
+        corresponding load factors on the y-axis. The plot is titled 'Passenger Load Factor for Sydney - Melbourne'
+        and includes a legend and appropriate labels for both axes.
+
+    Example:
+        analyze_load_factor('Sydney', 'Melbourne', canvas)
+
+        This will query the dataset for flights between Sydney and Melbourne and plot the load factor
+        trend on the canvas. The graph will have 'Date' on the x-axis and 'Load Factor (%)' on the y-axis.
+        If there are no flights between these cities in the dataset, a popup will appear stating:
+        "No data found for the city pair: Sydney - Melbourne."
+    """
+
+    # Query the dataset for the specified city pair.
+
+    pair_data = data.query("City1 == @city1 and City2 == @city2")
+
+    # If no data is found for the city pair, display a popup and return early.
+
+    if pair_data.empty:
+        popup_message = f"No data found for the city pair: {city1} - {city2}"
+
+        sg.popup(popup_message)
+
+        return
+
+        # Begin plotting the data if it exists.
+
+    fig = plt.figure(figsize=(5, 4))
+
+    plot_dates = pair_data['Date']
+
+    plot_values = pair_data['Passenger_Load_Factor']
+
+    plt.plot(plot_dates, plot_values, label="Passenger Load Factor")
+
+    # Configure plot aesthetics.
+
+    plt.title(f'Passenger Load Factor for {city1} - {city2}')
+
+    plt.xlabel('Date')
+
+    plt.ylabel('Load Factor (%)')
+
+    plt.xticks(rotation=45)
+
+    plt.legend(loc="best")
+
+    plt.grid(True)
+
+    plt.tight_layout()
+
+    # Display the updated plot on the canvas.
+
+    update_canvas(fig, canvas)
+
+
+# Prepare the list of city pairs from the data for dropdowns or listboxes in the GUI.
+
+city_pairs = [f"{city1} - {city2}" for city1, city2 in zip(data['City1'], data['City2'])]
+
