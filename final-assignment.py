@@ -340,3 +340,17 @@ def analyze_distance_vs_load(canvas):
 
     # Display the plot on the canvas.
     update_canvas(fig, canvas)
+
+
+def filter_most_passenger_trips(data):
+    #This function sorts and filters the dtaa to find the top 10 entries
+
+    #Sorting is done in descending order based on the passenger_trips column
+
+    sorted_data = data.sort_values(by ='Passenger_Trips', ascending = False)
+
+    #Next, top 10 rows with the highest passenger trips are retrieved
+
+    top_passenger_trips = sorted_data.head(10)
+
+    return top_passenger_trips
