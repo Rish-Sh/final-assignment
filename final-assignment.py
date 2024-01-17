@@ -216,3 +216,89 @@ def analyze_load_factor(city1, city2, canvas):
 
 city_pairs = [f"{city1} - {city2}" for city1, city2 in zip(data['City1'], data['City2'])]
 
+def calculate_city_stats(city, dataset):
+    """
+    Calculate and return key statistics for a given city based on the 'dataset'.
+
+    The function computes the total number of trips from the city, the average load factor,
+    and the most traveled to city from the given city.
+
+    Arguments:
+    city (str): The city to compute statistics for.
+    dataset (DataFrame): The DataFrame containing the flight data.
+
+    Returns:
+    dict: A dictionary with computed statistics: total number of trips, average load factor,
+    and the most traveled to destination city.
+
+    Example:
+        Given a DataFrame 'flights_data' with the following columns: ['City1', 'City2', 'Passenger_Load_Factor'],
+        if we call calculate_city_stats('New York', flights_data), the function might return:
+        {
+            'total_trips': 120,
+            'avg_load_factor': 78.5,
+            'most_traveled_to_city': 'Los Angeles'
+        }
+        This indicates that from New York, there were 120 trips recorded in the dataset, 
+        the average load factor for these trips was 78.5%, and the most common destination city was Los Angeles.
+    """
+        # Filter the dataset for the selected city.
+
+    city_data = dataset[dataset['City1'] == city]
+
+    # Calculate the total number of trips and the average load factor.
+
+    total_trips = city_data.shape[0]
+
+    avg_load_factor = city_data['Passenger_Load_Factor'].mean() if total_trips > 0 else float('nan')
+
+    # Determine the most traveled to city.
+
+    most_traveled_to_city = (city_data['City2'].mode()[0]
+
+                             if not city_data['City2'].empty
+
+                             else "No data")
+
+    # Construct the results dictionary.
+
+    results = {
+
+        'total_trips': total_trips,
+
+        'avg_load_factor': avg_load_factor,
+
+        'most_traveled_to_city': most_traveled_to_city
+
+    }
+
+    return results
+def analyze_distance_vs_load(canvas):
+    
+    # Extract the relevant columns from the dataset.
+    distance = data['Distance_GC_(km)']
+    load_factor = data['Passenger_Load_Factor']
+
+    # Create a new figure for plotting.
+    fig, ax = plt.subplots(figsize=(6, 5))
+
+    # Generate the hexbin plot with the data.
+    hexbin_plot = ax.hexbin(distance, load_factor, gridsize=50, cmap='viridis')
+
+    # Calculate and annotate the Pearson Correlation Coefficient.
+    relevant_data = data[['Distance_GC_(km)', 'Passenger_Load_Factor']]
+    correlation = relevant_data.corr(method='pearson').at['Distance_GC_(km)', 'Passenger_Load_Factor']
+    correlation_annotation = f'Correlation: {correlation:.2f}'
+    ax.annotate(correlation_annotation, xy=(0.5, 1.15), xycoords="axes fraction", ha='center')
+
+    # Set the plot's title and labels.
+    ax.set_title('Distance vs. Passenger Load Factor')
+    ax.set_xlabel('Route Distance (km)')
+    ax.set_ylabel('Passenger Load Factor (%)')
+
+    # Add a color bar to interpret the bin counts.
+    color_bar = fig.colorbar(hexbin_plot, ax=ax)
+    color_bar.set_label('Count in bin')
+
+    # Display the plot on the canvas.
+    update_canvas(fig, canvas)
