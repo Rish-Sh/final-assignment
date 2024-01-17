@@ -8,8 +8,9 @@ import matplotlib.pyplot as plt  # Matplotlib for plotting graphs
 # This function returns a cleaned pandas DataFrame, stored in the "data" variable, ready for analysis and visualization.
 data = load_and_clean_data('dom_city_pair.csv')
 
-# Function to update the Tkinter canvas 
 
+
+# Function to update the Tkinter canvas 
 def update_canvas(fig, canvas):
     """
         Updates the specified canvas with a new matplotlib figure.
@@ -33,8 +34,9 @@ def update_canvas(fig, canvas):
   figure_canvas_agg.draw()
   figure_canvas_agg.get_tk_widget().pack(side = 'top', fill = 'both', expand = 1)
 
-# Function to fetch city pair data
 
+
+# Function to fetch city pair data
 def get_city_pair_data(city1, city2):
     """
         Retrieve domestic flight data for a specific pair of cities.
@@ -62,6 +64,8 @@ def get_city_pair_data(city1, city2):
         return
     else:
         return city_pair_data
+
+
 
 # Function to plot the passenger trips trend of a city pair
 def plot_trend(city_pair_data, canvas):
@@ -97,6 +101,8 @@ def plot_trend(city_pair_data, canvas):
 
     # Update the canvas with new plot of the city pair passenger trips trend
     update_canvas(fig, canvas)
+
+
 
 # Function to compare two city pairs
 def compare_two_city_pairs(pair1, pair2, canvas):
@@ -216,6 +222,8 @@ def analyze_load_factor(city1, city2, canvas):
 
 city_pairs = [f"{city1} - {city2}" for city1, city2 in zip(data['City1'], data['City2'])]
 
+
+
 def calculate_city_stats(city, dataset):
     """
     Calculate and return key statistics for a given city based on the 'dataset'.
@@ -273,6 +281,8 @@ def calculate_city_stats(city, dataset):
     }
 
     return results
+
+
 def analyze_distance_vs_load(canvas):
         """
     Plot a hexbin chart to analyze the relationship between flight distance and passenger load factor.
@@ -338,8 +348,10 @@ def analyze_distance_vs_load(canvas):
     color_bar = fig.colorbar(hexbin_plot, ax=ax)
     color_bar.set_label('Count in bin')
 
+
     # Display the plot on the canvas.
     update_canvas(fig, canvas)
+
 
 
 def filter_most_passenger_trips(data):
@@ -354,3 +366,51 @@ def filter_most_passenger_trips(data):
     top_passenger_trips = sorted_data.head(10)
 
     return top_passenger_trips
+
+
+
+def filter_most_aircraft_trips(data): 
+
+    # This function sorts and filters the data to find the top 10 entries with the most aircraft trips. 
+ 
+    # It sorts the data in descending order based on the 'Aircraft_Trips' column. 
+
+    sorted_data = data.sort_values(by='Aircraft_Trips', ascending=False) 
+
+    # Retrieves the top 10 rows with the highest 'Aircraft_Trips' 
+
+    top_aircraft_trips = sorted_data.head(10) 
+
+    return top_aircraft_trips 
+
+
+
+def filter_highest_load_factor(data): 
+
+    # This function sorts and filters the data to find the top 10 entries with the highest passenger load factor. 
+
+    # It sorts the data in descending order based on the 'Passenger_Load_Factor' column. 
+ 
+    sorted_data = data.sort_values(by='Passenger_Load_Factor', ascending=False) 
+ 
+    # Retrieves the top 10 rows with the highest 'Passenger_Load_Factor' 
+
+    highest_load_factor = sorted_data.head(10) 
+
+    return highest_load_factor 
+
+
+
+def filter_lowest_load_factor(data): 
+
+    # This function sorts and filters the data to find the top 10 entries with the lowest passenger load factor. 
+
+    # It sorts the data in ascending order based on the 'Passenger_Load_Factor' column. 
+
+    sorted_data = data.sort_values(by='Passenger_Load_Factor', ascending=True) 
+
+    # Retrieves the top 10 rows with the lowest 'Passenger_Load_Factor' 
+    
+    lowest_load_factor = sorted_data.head(10) 
+
+    return lowest_load_factor 
