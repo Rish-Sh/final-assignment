@@ -153,7 +153,7 @@ def analyze_load_factor(city1, city2, canvas):
 
     canvas: The Tkinter canvas object to update with the plot.
 
-    Output:
+    Results:
         A matplotlib figure will be updated on the canvas showing the trend of load factor over time for the
         specified city pair. The figure includes a line plot with the dates of flights on the x-axis and the
         corresponding load factors on the y-axis. The plot is titled 'Passenger Load Factor for Sydney - Melbourne'
