@@ -114,4 +114,15 @@ def compare_two_city_pairs(pair1, pair2, canvas):
         # Continue only if there is data for the city pair
         if pair_data is not None:
             ax.plot(pair_data['Date'], pair_data['Passenger_Trips'], label=f"{city1} - {city2}")
+            
+    # Set plot titles and labels
+    ax.set_title('Comparison of Passenger Trips Between Two City Pairs')
+    ax.set_xlabel('Date')
+    ax.set_ylabel('Passenger Trips')
+    plt.xticks(rotation=45)
+    ax.legend()
+    plt.tight_layout()
+
+    # Update the canvas with the new plot of the passenger trips trends of the two city pairs
+    update_canvas(fig, canvas)
 
