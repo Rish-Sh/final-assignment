@@ -274,6 +274,44 @@ def calculate_city_stats(city, dataset):
 
     return results
 def analyze_distance_vs_load(canvas):
+        """
+    Plot a hexbin chart to analyze the relationship between flight distance and passenger load factor.
+
+    The hexbin chart uses color coding to represent the density of points in the plot, with each hexagonal 
+    bin displaying the count of occurrences within that bin. The plot is created on a Tkinter canvas passed 
+    to the function. The function also calculates and displays the Pearson Correlation Coefficient to quantify 
+    the linear relationship between distance and load factor.
+
+    Arguments:
+    canvas (Canvas): The Tkinter canvas object on which the hexbin chart will be plotted.
+
+    Results:
+    The function will render a hexbin chart on the provided canvas object. This chart will visualize the 
+    relationship between the great-circle distance of flights and their corresponding passenger load factors, 
+    along with an annotation for the correlation coefficient.
+
+    Example:
+    Assuming 'data' is a DataFrame that contains two columns: 'Distance_GC_(km)' and 'Passenger_Load_Factor', 
+    with each row representing a flight, calling `analyze_distance_vs_load(canvas)` will generate a plot such 
+    as the following:
+
+    +--------------------------------------------------------+
+    |                                                        |
+    |     Distance vs. Passenger Load Factor                 |
+    |     Correlation: 0.76                                  |
+    |                                                        |
+    |     ^                                                  |
+    |     |  [Dense area with dark color indicating          |
+    |     |   high passenger load factor at various distances]|
+    |     |                                                  |
+    |     |  [Less dense area with lighter color indicating   |
+    |     |   lower load factors at various distances]        |
+    |     |                                                  |
+    |     +-------------------------------------------------->|
+    |       Route Distance (km)                              |
+    |                                                        |
+    +--------------------------------------------------------+
+    """
     
     # Extract the relevant columns from the dataset.
     distance = data['Distance_GC_(km)']
