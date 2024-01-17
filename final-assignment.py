@@ -414,3 +414,159 @@ def filter_lowest_load_factor(data):
     lowest_load_factor = sorted_data.head(10) 
 
     return lowest_load_factor 
+
+
+
+# Function to create and handle the data exploration window 
+def data_exploration_window(): 
+
+    # Define the layout of the window with various UI elements 
+
+    layout = [ 
+
+        # Section for filter options 
+
+        [sg.Text('Filter Options:')], 
+
+        # Input fields for City 1 and City 2 with corresponding labels 
+
+        [sg.Text('City 1:'), sg.InputText(key='-FILTER_CITY1-'), sg.Text('City 2:'), 
+
+         sg.InputText(key='-FILTER_CITY2-')], 
+
+        # Input fields for selecting a date range 
+
+        [sg.Text('Date Range:'), sg.InputText(key='-DATE_START-'), sg.Text('to'), sg.InputText(key='-DATE_END-')], 
+
+        # Buttons for selecting different types of data filters 
+
+        [sg.Button('Most Passenger Trips'), sg.Button('Most Aircraft Trips'), 
+
+         sg.Button('Highest Passenger Load Factor Trips'), sg.Button('Lowest Passenger Load Factor Trips')], 
+
+        # Buttons to apply or reset the selected filters 
+
+        [sg.Button('Apply Filter'), sg.Button('Reset Filter')], 
+
+        # Table to display the data with row numbers and adjustable columns 
+
+        [sg.Table(values=data.values.tolist(), headings=data.columns.tolist(), display_row_numbers=True, 
+                  auto_size_columns=False, num_rows=10, key='-TABLE-', enable_click_events=True)], 
+        
+        # Back button to exit the window 
+        
+        [sg.Button('Back')] 
+
+    ] 
+
+    
+    # Create the window with the specified layout 
+    
+    window = sg.Window('Data Exploration', layout, finalize=True) 
+
+    # Event loop to handle user interactions 
+
+    while True: 
+
+        event, values = window.read() 
+
+        # Check for window close or 'Back' button events 
+
+        if event in (sg.WIN_CLOSED, 'Back'): 
+
+            break 
+
+        # Handle events for filtering data based on different criteria 
+        
+        elif event == 'Most Passenger Trips': 
+            
+            filtered_data = filter_most_passenger_trips(data) 
+
+            window['-TABLE-'].update(values=filtered_data.values.tolist()) 
+            
+
+        elif event == 'Most Aircraft Trips': 
+
+            filtered_data = filter_most_aircraft_trips(data) 
+
+            window['-TABLE-'].update(values=filtered_data.values.tolist()) 
+            
+
+        elif event == 'Highest Passenger Load Factor Trips': 
+
+            filtered_data = filter_highest_load_factor(data) 
+
+            window['-TABLE-'].update(values=filtered_data.values.tolist()) 
+            
+
+        elif event == 'Lowest Passenger Load Factor Trips': 
+
+            filtered_data = filter_lowest_load_factor(data) 
+
+            window['-TABLE-'].update(values=filtered_data.values.tolist()) 
+            
+            
+            # Event to apply custom filters 
+
+        elif event == 'Apply Filter': 
+
+            filtered_data = apply_filters(values) 
+
+            window['-TABLE-'].update(values=filtered_data.values.tolist()) 
+            
+
+            # Event to reset the filters and display the original data 
+
+        elif event == 'Reset Filter': 
+
+            window['-TABLE-'].update(values=data.values.tolist()) 
+            
+            
+    # Close the window once the loop is exited 
+    window.close()
+
+
+
+def apply_filters(values): 
+
+    # Start with the original dataset 
+
+    filtered_data = data 
+
+    # Check if a filter for 'City 1' is applied. 
+
+    # If so, filter the data to include only those entries where 'City1' matches the input value. 
+
+    if values['-FILTER_CITY1-']: 
+
+        filtered_data = filtered_data[filtered_data['City1'] == values['-FILTER_CITY1-']]  
+        
+
+    # Check if a filter for 'City 2' is applied. 
+    
+    # If so, filter the data to include only those entries where 'City2' matches the input value. 
+
+    if values['-FILTER_CITY2-']: 
+
+        filtered_data = filtered_data[filtered_data['City2'] == values['-FILTER_CITY2-']] 
+        
+
+    # Check if both start and end dates are provided for filtering.
+
+    # If so, filter the data to include only those entries within the specified date range. 
+    
+    if values['-DATE_START-'] and values['-DATE_END-']: 
+
+        filtered_data = filtered_data[ 
+        
+            (filtered_data['Date'] >= values['-DATE_START-']) & 
+
+            (filtered_data['Date'] <= values['-DATE_END-']) 
+
+            ] 
+
+    
+    # Return the filtered dataset
+    
+    return filtered_data 
+
