@@ -65,6 +65,18 @@ def get_city_pair_data(city1, city2):
 
 # Function to plot the passenger trips trend of a city pair
 def plot_trend(city_pair_data, canvas):
+    """
+        Plots the passenger trips trend between two cities on a canvas.
+
+        This function takes two city names and a Tkinter canvas, and plots the trend of passenger trips
+        between these cities over time. If no data is found for the specified city pair, it displays a popup message.
+        The plot is then updated on the provided canvas.
+
+        Parameters:
+        city1 (str): Name of the first city in the city pair.
+        city2 (str): Name of the second city in the city pair.
+        canvas (tkinter.Canvas): The Tkinter canvas widget to display the plot.
+        """
     
     # Check if city_pair_data is empty
     if city_pair_data.empty:
