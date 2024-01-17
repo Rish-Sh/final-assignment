@@ -1,6 +1,7 @@
 from data_cleaning_formatting import load_and_clean_data
 from matplotlib.backends.backend_tkagg import \
     FigureCanvasTkAgg  # TkAgg backend for embedding matplotlib plots in Tkinter
+import matplotlib.pyplot as plt  # Matplotlib for plotting graphs
 
 # Loading and Cleaning Australian Domestic Flight
 # The 'load_and_clean_data' function is invoked with the path to a CSV file containing australian domestic flight data.
@@ -61,4 +62,26 @@ def get_city_pair_data(city1, city2):
         return
     else:
         return city_pair_data
-  
+
+# Function to plot the passenger trips trend of a city pair
+def plot_trend(city_pair_data, canvas):
+    
+    # Check if city_pair_data is empty
+    if city_pair_data.empty:
+        return sg.popup("No data found for the city pair")
+
+    # Fetch the city names from the city_pair_data
+    city1 = city_pair_data.iloc[0]['City1']
+    city2 = city_pair_data.iloc[0]['City2']
+
+    # Create and format the plot to display the passenger trips trend
+    fig = plt.figure(figsize=(5, 4))
+    plt.plot(city_pair_data['Date'], city_pair_data['Passenger_Trips'])
+    plt.title(f'Passenger Trips Trend for {city1} - {city2}')
+    plt.xlabel('Date')
+    plt.ylabel('Passenger Trips')
+    plt.xticks(rotation=45)
+    plt.tight_layout()
+
+    # Update the canvas with new plot of the city pair passenger trips trend
+    update_canvas(fig, canvas)
