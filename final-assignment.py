@@ -31,6 +31,19 @@ def update_canvas(fig, canvas):
   figure_canvas_agg = FigureCanvasTkAgg(fig, master=canvas)
   figure_canvas_agg.draw()
   figure_canvas_agg.get_tk_widget().pack(side = 'top', fill = 'both', expand = 1)
-  
-  
+
+# Function to fetch city pair data
+
+def get_city_pair_data(city1, city2):
+
+    # Get data for the specific city pair
+    city_pair_data = data[(data['City1'] == city1)
+                          & (data['City2'] == city2)
+                          ]
+
+    # If no data is found for the specified city pair display a popup
+    if city_pair_data is None:
+        return
+    else:
+        return city_pair_data
   
