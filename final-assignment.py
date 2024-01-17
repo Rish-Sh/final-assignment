@@ -10,13 +10,13 @@ data = load_and_clean_data('dom_city_pair.csv')
 # Function to update the Tkinter canvas 
 
 def update_canvas(fig, canvas):
-"""
+    """
         Updates the specified canvas with a new matplotlib figure.
-
+    
         This function is responsible for updating the Tkinter canvas widget with a new matplotlib figure.
         If the canvas already has any children widgets (previous plots), they are removed before
         updating the canvas with the new figure.
-
+    
         Parameters:
         fig (matplotlib.figure.Figure): The matplotlib figure to display on the canvas.
         canvas (tkinter.Canvas): The Tkinter canvas widget to be updated with the figure.
@@ -35,6 +35,21 @@ def update_canvas(fig, canvas):
 # Function to fetch city pair data
 
 def get_city_pair_data(city1, city2):
+    """
+        Retrieve domestic flight data for a specific pair of cities.
+    
+        This function searches within the flight dataset 'data' for entries where
+        'City1' matches 'city1' and 'City2' matches 'city2'. If no matching data is found,
+        the function returns None, otherwise it returns the corresponding data.
+    
+        Parameters:
+        city1 (str): The name of the first city in the city pair.
+        city2 (str): The name of the second city in the city pair.
+    
+        Returns:
+        DataFrame or None: The subset of the 'data' DataFrame corresponding to the 
+        specified city pair, or None if no data is found for that city pair.
+        """
 
     # Get data for the specific city pair
     city_pair_data = data[(data['City1'] == city1)
