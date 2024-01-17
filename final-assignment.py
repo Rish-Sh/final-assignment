@@ -100,7 +100,19 @@ def plot_trend(city_pair_data, canvas):
 
 # Function to compare two city pairs
 def compare_two_city_pairs(pair1, pair2, canvas):
+    """
+    Compares passenger trips between two pairs of cities and plots the data on a given canvas.
 
+    This function takes two city pairs (each pair consisting of two city names separated by ' - ') and
+    a Tkinter canvas.
+    It plots the trend of passenger trips for each city pair on the same graph for a comparative visualization.
+
+    Parameters:
+    pair1 (str): The first city pair in the format 'City1 - City2'.
+    pair2 (str): The second city pair in the format 'City1 - City2'.
+    canvas (tkinter.Canvas): The Tkinter canvas widget where the plot will be displayed.
+    """
+    
     # Set up the figure for plotting
     fig, ax = plt.subplots(figsize=(5, 4))
 
