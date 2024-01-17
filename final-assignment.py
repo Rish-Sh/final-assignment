@@ -10,6 +10,17 @@ data = load_and_clean_data('dom_city_pair.csv')
 # Function to update the Tkinter canvas 
 
 def update_canvas(fig, canvas):
+"""
+        Updates the specified canvas with a new matplotlib figure.
+
+        This function is responsible for updating the Tkinter canvas widget with a new matplotlib figure.
+        If the canvas already has any children widgets (previous plots), they are removed before
+        updating the canvas with the new figure.
+
+        Parameters:
+        fig (matplotlib.figure.Figure): The matplotlib figure to display on the canvas.
+        canvas (tkinter.Canvas): The Tkinter canvas widget to be updated with the figure.
+        """
 
   # Clear existing children widgets from the canvas, if there are any
   if canvas.children:
