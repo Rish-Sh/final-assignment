@@ -736,4 +736,22 @@ def load_factor_analysis_window():
     # Initialize window with layout 
     window = sg.Window('Load Factor Analysis', layout, finalize=True) 
     canvas = window['-CANVAS-'].TKCanvas 
-    
+
+    # Event processing loop 
+    while True: 
+        event, values = window.read() 
+        # Check for window close or navigation events if program closed then quit the program
+        if event in (sg.WIN_CLOSED, 'Back'): 
+            break 
+        # Analyze load factor upon button click 
+        if event == 'Analyze Load Factor': 
+            city1, city2 = values['-LOAD_CITY1-'], values['-LOAD_CITY2-'] 
+            # Proceed only if both city names are provided 
+            if city1 and city2: 
+                analyze_load_factor(city1, city2, canvas) 
+            else: 
+                # Prompt user for missing city names 
+                sg.popup("Both City 1 and City 2 are required for load factor analysis.") 
+                # Clean up and close the window 
+
+    window.close()
