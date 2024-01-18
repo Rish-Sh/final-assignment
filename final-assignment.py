@@ -609,7 +609,25 @@ def create_dashboard_window():
     
 # Function to create and handle the trend analysis window 
 def trend_analysis_window(): 
+    """
+    Creates and manages the passenger trips trend analysis window.
 
+    This function sets up a window for trend analysis where users can enter two city names
+    and view the trend of passenger trips between these cities. The window includes input fields
+    for the city names, a button to trigger the trend display, and a canvas where the trend plot is shown.
+
+    The function handles the following user interactions:
+    - Reading city names from input fields and displaying the trend on the canvas.
+    - Showing a popup message if both city names are not entered.
+    - Closing the window either when the user clicks 'Back' or closes the window.
+
+    Output:
+    If valid city names are entered and the 'Show Trend' button is clicked, the function will
+    display a line plot on the canvas showing the trend of passenger trips over time for the
+    specified city pair. The plot will have 'Date' on the x-axis and 'Passenger Trips' on the y-axis.
+    If the entered cities do not have associated trip data, the user will be notified via a popup message.
+    """
+    
     # Layout definition for the passenger trips trend analysis GUI window 
     layout = [ 
         [sg.Text("City 1:"), sg.InputText(key='-CITY1-')], 
