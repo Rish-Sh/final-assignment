@@ -722,6 +722,20 @@ def compare_city_pairs_window():
     window.close() 
 
 def load_factor_analysis_window(): 
+    """ 
+        Create and handle the load factor analysis window. 
+        In this window, the user can input two city names (City 1 and City 2) and then trigger an analysis 
+        of the load factor between these cities by clicking the 'Analyze Load Factor' button. A graph will be 
+        plotted displaying the load factor trend over time on a canvas within the GUI. The user is required 
+        to enter valid names for both cities before the analysis can proceed. If either city name is left 
+        blank, a message will prompt the user to fill in both fields. 
+        The window also contains a 'Back' button to return to the previous menu. 
+    
+        Example: 
+            If the user inputs 'Sydney' for City 1 and 'Melbourne' for City 2 and then clicks the 
+            'Analyze Load Factor' button, the function will display a graph showing the trend of load 
+            factors for flights between Sydney and Melbourne. 
+        """ 
 
     # Define GUI layout elements 
     layout = [ 
