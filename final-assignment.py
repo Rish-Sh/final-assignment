@@ -256,29 +256,19 @@ def calculate_city_stats(city, dataset):
     city_data = dataset[dataset['City1'] == city]
 
     # Calculate the total number of trips and the average load factor.
-
     total_trips = city_data.shape[0]
-
     avg_load_factor = city_data['Passenger_Load_Factor'].mean() if total_trips > 0 else float('nan')
 
     # Determine the most traveled to city.
-
     most_traveled_to_city = (city_data['City2'].mode()[0]
-
                              if not city_data['City2'].empty
-
                              else "No data")
 
     # Construct the results dictionary.
-
     results = {
-
         'total_trips': total_trips,
-
         'avg_load_factor': avg_load_factor,
-
         'most_traveled_to_city': most_traveled_to_city
-
     }
 
     return results
@@ -357,13 +347,10 @@ def analyze_distance_vs_load(canvas):
 
 def filter_most_passenger_trips(data):
     #This function sorts and filters the dtaa to find the top 10 entries
-
     #Sorting is done in descending order based on the passenger_trips column
-
     sorted_data = data.sort_values(by ='Passenger_Trips', ascending = False)
 
     #Next, top 10 rows with the highest passenger trips are retrieved
-
     top_passenger_trips = sorted_data.head(10)
 
     return top_passenger_trips
@@ -371,15 +358,11 @@ def filter_most_passenger_trips(data):
 
 
 def filter_most_aircraft_trips(data): 
-
     # This function sorts and filters the data to find the top 10 entries with the most aircraft trips. 
- 
     # It sorts the data in descending order based on the 'Aircraft_Trips' column. 
-
     sorted_data = data.sort_values(by='Aircraft_Trips', ascending=False) 
 
     # Retrieves the top 10 rows with the highest 'Aircraft_Trips' 
-
     top_aircraft_trips = sorted_data.head(10) 
 
     return top_aircraft_trips 
@@ -389,13 +372,10 @@ def filter_most_aircraft_trips(data):
 def filter_highest_load_factor(data): 
 
     # This function sorts and filters the data to find the top 10 entries with the highest passenger load factor. 
-
     # It sorts the data in descending order based on the 'Passenger_Load_Factor' column. 
- 
     sorted_data = data.sort_values(by='Passenger_Load_Factor', ascending=False) 
  
     # Retrieves the top 10 rows with the highest 'Passenger_Load_Factor' 
-
     highest_load_factor = sorted_data.head(10) 
 
     return highest_load_factor 
@@ -403,15 +383,11 @@ def filter_highest_load_factor(data):
 
 
 def filter_lowest_load_factor(data): 
-
     # This function sorts and filters the data to find the top 10 entries with the lowest passenger load factor. 
-
     # It sorts the data in ascending order based on the 'Passenger_Load_Factor' column. 
-
     sorted_data = data.sort_values(by='Passenger_Load_Factor', ascending=True) 
 
     # Retrieves the top 10 rows with the lowest 'Passenger_Load_Factor' 
-    
     lowest_load_factor = sorted_data.head(10) 
 
     return lowest_load_factor 
@@ -422,154 +398,122 @@ def filter_lowest_load_factor(data):
 def data_exploration_window(): 
 
     # Define the layout of the window with various UI elements 
-
     layout = [ 
 
         # Section for filter options 
-
         [sg.Text('Filter Options:')], 
 
         # Input fields for City 1 and City 2 with corresponding labels 
-
         [sg.Text('City 1:'), sg.InputText(key='-FILTER_CITY1-'), sg.Text('City 2:'), 
-
          sg.InputText(key='-FILTER_CITY2-')], 
 
         # Input fields for selecting a date range 
-
         [sg.Text('Date Range:'), sg.InputText(key='-DATE_START-'), sg.Text('to'), sg.InputText(key='-DATE_END-')], 
 
         # Buttons for selecting different types of data filters 
-
         [sg.Button('Most Passenger Trips'), sg.Button('Most Aircraft Trips'), 
-
          sg.Button('Highest Passenger Load Factor Trips'), sg.Button('Lowest Passenger Load Factor Trips')], 
 
         # Buttons to apply or reset the selected filters 
-
         [sg.Button('Apply Filter'), sg.Button('Reset Filter')], 
 
         # Table to display the data with row numbers and adjustable columns 
-
         [sg.Table(values=data.values.tolist(), headings=data.columns.tolist(), display_row_numbers=True, 
                   auto_size_columns=False, num_rows=10, key='-TABLE-', enable_click_events=True)], 
         
-        # Back button to exit the window 
-        
+        # Back button to exit the window  
         [sg.Button('Back')] 
-
+        
     ] 
-
     
     # Create the window with the specified layout 
-    
     window = sg.Window('Data Exploration', layout, finalize=True) 
 
     # Event loop to handle user interactions 
-
     while True: 
-
         event, values = window.read() 
 
         # Check for window close or 'Back' button events 
-
         if event in (sg.WIN_CLOSED, 'Back'): 
-
             break 
-
+            
         # Handle events for filtering data based on different criteria 
-        
         elif event == 'Most Passenger Trips': 
-            
             filtered_data = filter_most_passenger_trips(data) 
-
             window['-TABLE-'].update(values=filtered_data.values.tolist()) 
             
-
         elif event == 'Most Aircraft Trips': 
-
             filtered_data = filter_most_aircraft_trips(data) 
-
             window['-TABLE-'].update(values=filtered_data.values.tolist()) 
             
-
         elif event == 'Highest Passenger Load Factor Trips': 
-
             filtered_data = filter_highest_load_factor(data) 
-
             window['-TABLE-'].update(values=filtered_data.values.tolist()) 
             
-
         elif event == 'Lowest Passenger Load Factor Trips': 
-
             filtered_data = filter_lowest_load_factor(data) 
-
             window['-TABLE-'].update(values=filtered_data.values.tolist()) 
             
-            
-            # Event to apply custom filters 
-
+        # Event to apply custom filters 
         elif event == 'Apply Filter': 
-
             filtered_data = apply_filters(values) 
-
             window['-TABLE-'].update(values=filtered_data.values.tolist()) 
             
-
-            # Event to reset the filters and display the original data 
-
+        # Event to reset the filters and display the original data 
         elif event == 'Reset Filter': 
-
             window['-TABLE-'].update(values=data.values.tolist()) 
-            
             
     # Close the window once the loop is exited 
     window.close()
 
 
-
 def apply_filters(values): 
 
-    # Start with the original dataset 
+    """
+    Applies various filters to the dataset based on user input values.
 
+    Parameters:
+    - values (dict): A dictionary containing filter criteria. Expected keys include
+                     '-FILTER_CITY1-', '-FILTER_CITY2-', '-DATE_START-', and '-DATE_END-'.
+
+    Process:
+    - Starts with the original dataset.
+    - Filters by 'City 1' if '-FILTER_CITY1-' is specified.
+    - Filters by 'City 2' if '-FILTER_CITY2-' is specified.
+    - Filters by date range if both '-DATE_START-' and '-DATE_END-' are specified.
+
+    Returns:
+    - filtered_data: The dataset filtered according to the specified criteria.
+
+    Notes:
+    - The function handles partial filtering; if certain filters are not specified,
+      the corresponding data remains unfiltered.
+    """
+
+    # Start with the original dataset 
     filtered_data = data 
 
     # Check if a filter for 'City 1' is applied. 
-
     # If so, filter the data to include only those entries where 'City1' matches the input value. 
-
     if values['-FILTER_CITY1-']: 
-
         filtered_data = filtered_data[filtered_data['City1'] == values['-FILTER_CITY1-']]  
         
-
     # Check if a filter for 'City 2' is applied. 
-    
     # If so, filter the data to include only those entries where 'City2' matches the input value. 
-
     if values['-FILTER_CITY2-']: 
-
         filtered_data = filtered_data[filtered_data['City2'] == values['-FILTER_CITY2-']] 
         
-
     # Check if both start and end dates are provided for filtering.
-
     # If so, filter the data to include only those entries within the specified date range. 
-    
     if values['-DATE_START-'] and values['-DATE_END-']: 
-
         filtered_data = filtered_data[ 
-        
             (filtered_data['Date'] >= values['-DATE_START-']) & 
-
             (filtered_data['Date'] <= values['-DATE_END-']) 
-
             ] 
 
-    
-    # Return the filtered dataset
-    
+    # Return the filtered dataset    
     return filtered_data 
+
 
 # Function to create the overall dashboard
 def create_dashboard_window():
@@ -606,6 +550,8 @@ def create_dashboard_window():
 
     # Returns the main dashboard window
     return sg.Window('Australia Domestic Flights Analysis', layout, size=(400, 250))
+
+
     
 # Function to create and handle the trend analysis window 
 def trend_analysis_window(): 
@@ -659,6 +605,8 @@ def trend_analysis_window():
                 sg.popup("Please enter both City 1 and City 2.") 
                 
     window.close() 
+
+
 
 # Function to create and handle the city pair comparison window 
 def compare_city_pairs_window(): 
@@ -839,4 +787,126 @@ def city_summary_window():
             
     # Close the window when the loop is exited 
     window.close() 
+
+
+
+def distance_vs_load_window(): 
+    """
+    Creates and manages a GUI window for analyzing the relationship between distance and 
+    passenger load. The window includes a button to start the analysis, a canvas for 
+    displaying results, and a 'Back' button for exiting.
+
+    In the GUI:
+    - 'Analyze Distance vs Passenger Load' button: Initiates the analysis.
+    - Canvas: Displays the results of the analysis.
+    - 'Back' button: Exits the window.
+
+    User interactions are handled through an event loop. Clicking 'Analyze' triggers the 
+    `analyze_distance_vs_load` function, which performs the analysis and plotting. 
+    The loop checks for events until the window is closed or 'Back' is pressed.
+
+    Notes:
+    - Depends on `analyze_distance_vs_load` for data analysis and plotting.
+    - Utilizes PySimpleGUI for the GUI components.
+    """
+
+    # Define the layout of the window with various UI elements 
+    layout = [ 
+        # Button to initiate the analysis of Distance vs Passenger Load 
+        [sg.Button('Analyze Distance vs Passenger Load', key='-ANALYZE-')], 
+
+        # Canvas to display the analysis results 
+        [sg.Canvas(key='-CANVAS-')], 
+        
+        # Back button to exit the window 
+        [sg.Button('Back')] 
+    ] 
+
+    # Create the window with the specified layout
+    window = sg.Window('Distance vs Passenger Load Analysis', layout, finalize=True) 
+
+    # Accessing the canvas element for plotting 
+    canvas = window['-CANVAS-'].TKCanvas 
+
+    # Event loop to handle user interactions 
+    while True: 
+        event, _ = window.read() 
+        
+        # Check for window close or 'Back' button events 
+        if event == sg.WIN_CLOSED or event == 'Back': 
+            
+            break 
+            
+            # Handle event to analyze the data and plot on the canvas 
+        elif event == '-ANALYZE-': 
+            
+            # Function to perform the analysis and plotting 
+            analyze_distance_vs_load(canvas) 
+
+            # Close the window once the loop is exited 
+
+    window.close() 
+
+
+
+# Initialize the main dashboard window 
+dashboard_window = create_dashboard_window() 
+
+    """
+    Manages the main event loop for a transportation dashboard window.
+
+    Functions:
+    - Reads events and values from the dashboard.
+    - Closes the window upon 'Exit' button click or window close event.
+    - Triggers different analysis windows based on user interaction:
+        - '-SHOW_TREND-': Opens the trend analysis window.
+        - '-COMPARE_CITY_PAIRS-': Opens the window for comparing city pairs.
+        - '-ANALYZE_LOAD_FACTOR-': Opens the load factor analysis window.
+        - '-EXPLORE_DATA-': Opens the data exploration window.
+        - '-CITY_SUMMARY-': Opens the city summary window.
+        - '-DIST_VS_LOAD-': Opens the distance vs passenger load analysis window.
+
+    Notes:
+    - Each event is associated with a specific window function that is called when the event is triggered.
+    - This loop continues until the 'Exit' event is triggered or the window is closed.
+    - Utilizes PySimpleGUI for the GUI components.
+    """
+
+# Main event loop for the dashboard 
+while True: 
+
+    # Read the events and values from the dashboard window 
+    event, _ = dashboard_window.read() 
+
+    # Check if the window is closed or the 'Exit' button is clicked 
+    if event == sg.WIN_CLOSED or event == 'Exit': 
+        
+        break 
+        
+        # Handle event for showing trend analysis 
+    elif event == '-SHOW_TREND-': 
+        trend_analysis_window() 
+        
+        # Handle event for comparing city pairs 
+    elif event == '-COMPARE_CITY_PAIRS-': 
+        compare_city_pairs_window() 
+
+        # Handle event for analyzing load factor 
+    elif event == '-ANALYZE_LOAD_FACTOR-': 
+        load_factor_analysis_window() 
+
+        # Handle event for data exploration 
+    elif event == '-EXPLORE_DATA-': 
+        data_exploration_window() 
+
+        # Handle event for showing city summary 
+    elif event == '-CITY_SUMMARY-': 
+        city_summary_window() 
+
+        # Handle event for analyzing distance vs passenger load 
+    elif event == '-DIST_VS_LOAD-': 
+        distance_vs_load_window() 
+
+    # Close the dashboard window after exiting the loop 
+dashboard_window.close() 
 
