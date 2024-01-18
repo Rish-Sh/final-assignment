@@ -656,9 +656,43 @@ def trend_analysis_window():
                 plot_trend(get_city_pair_data(city1, city2), canvas) 
                 
             else: 
-                
                 sg.popup("Please enter both City 1 and City 2.") 
-                # Close the window 
-    
+                
     window.close() 
 
+# Layout definition for the compare two city pairs GUI window     
+def compare_city_pairs_window(): 
+    
+    layout = [ 
+        [sg.Text("Select First City Pair for Comparison:")], 
+        [sg.Listbox(city_pairs, select_mode='single', size=(30, 6), key='-CITYPAIR1-')], 
+        [sg.Text("Select Second City Pair for Comparison:")], 
+        [sg.Listbox(city_pairs, select_mode='single', size=(30, 6), key='-CITYPAIR2-')], 
+        [sg.Button('Compare')], 
+        [sg.Canvas(key='-CANVAS-')], 
+        [sg.Button('Back')] 
+    ] 
+
+    # Create the window with the specified layout 
+    window = sg.Window('Compare City Pairs', layout, finalize=True) 
+    canvas = window['-CANVAS-'].TKCanvas 
+
+ 
+
+    # Event loop for user interaction handling 
+    while True: 
+        event, values = window.read() 
+        
+        if event in (sg.WIN_CLOSED, 'Back'): 
+            break 
+            
+        if event == 'Compare': 
+            # Check if both city pairs are selected 
+            if not values['-CITYPAIR1-'] or not values['-CITYPAIR2-']: 
+                sg.popup("Please select two city pairs for comparison.") 
+                continue 
+
+                # Call function to compare the selected city pairs 
+            compare_two_city_pairs(values['-CITYPAIR1-'][0], values['-CITYPAIR2-'][0], canvas) 
+            
+    window.close() 
