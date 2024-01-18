@@ -721,6 +721,7 @@ def compare_city_pairs_window():
             
     window.close() 
 
+# Function to create the load factor analysis window
 def load_factor_analysis_window(): 
     """ 
         Create and handle the load factor analysis window. 
@@ -770,6 +771,7 @@ def load_factor_analysis_window():
 
     window.close()
 
+# Function to create the city summary window
 def city_summary_window(): 
 
     # Define the layout of the city summary window 
@@ -783,3 +785,42 @@ def city_summary_window():
     # Create the window with the given layout and a title 
     window_title = 'City Specific Data Summary' 
     window = sg.Window(window_title, layout, finalize=True) 
+
+    # Event loop to process user actions 
+    while True: 
+        # Read the next event and the values entered by the user 
+        event, values = window.read() 
+        
+        # Check if the user wants to close the window or go back 
+        if event in (sg.WIN_CLOSED, 'Back'):
+            # Exit the loop 
+            break 
+            
+        # Respond to 'Show Summary' button click 
+        if event == 'Show Summary': 
+            # Extract the chosen city from the user input 
+            city_selected = values['-CITY-'] 
+            
+            # Ensure a city has been selected before proceeding
+            if not city_selected:
+                # Show a warning popup if no city is selected 
+                sg.popup("Please select a city to show the summary.") 
+                continue 
+                
+            # Calculate the statistics for the selected city 
+            stats = calculate_city_stats(city_selected, data) 
+            
+            # Prepare the message to display in the popup 
+            total_trips_message = f"Total Trips: {stats['total_trips']}" 
+            average_load_message = f"Average Load Factor: {stats['avg_load_factor']:.2f}%" 
+            most_traveled_message = f"Most Traveled to City: {stats['most_traveled_to_city']}" 
+            summary_message = "\n".join([total_trips_message, 
+                                         average_load_message, 
+                                         most_traveled_message]) 
+
+            # Display the statistics in a popup window 
+            sg.popup(summary_message) 
+            
+    # Close the window when the loop is exited 
+    window.close() 
+
