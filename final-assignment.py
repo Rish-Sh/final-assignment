@@ -2,6 +2,7 @@ from data_cleaning_formatting import load_and_clean_data
 from matplotlib.backends.backend_tkagg import \
     FigureCanvasTkAgg  # TkAgg backend for embedding matplotlib plots in Tkinter
 import matplotlib.pyplot as plt  # Matplotlib for plotting graphs
+import PySimpleGUI as sg  # PySimpleGUI is used for creating the graphical user interface
 
 # Loading and Cleaning Australian Domestic Flight
 # The 'load_and_clean_data' function is invoked with the path to a CSV file containing australian domestic flight data.
@@ -569,4 +570,21 @@ def apply_filters(values):
     # Return the filtered dataset
     
     return filtered_data 
+
+# Function to create the overall dashboard
+def create_dashboard_window():
+
+    # Layout definition for the main GUI window
+    layout = [
+        [sg.Text("Choose an analysis option:")],
+        [sg.Button('Explore Data', key='-EXPLORE_DATA-')],
+        [sg.Button('Show Passenger Trips Trend', key='-SHOW_TREND-')],
+        [sg.Button('Compare Passenger Trips Trends of Two City Pairs', key='-COMPARE_CITY_PAIRS-')],
+        [sg.Button('Analyze Load Factor of City Pair', key='-ANALYZE_LOAD_FACTOR-')],
+        [sg.Button('City Specific Data Summary', key='-CITY_SUMMARY-')],
+        [sg.Button('Distance vs Passenger Load analysis', key='-DIST_VS_LOAD-')],
+        [sg.Button('Exit')]
+    ]
+    return sg.Window('Australia Domestic Flights Analysis', layout, size=(400, 250))
+
 
