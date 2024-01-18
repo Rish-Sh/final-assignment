@@ -773,6 +773,22 @@ def load_factor_analysis_window():
 
 # Function to create the city summary window
 def city_summary_window(): 
+    """
+        The city_summary_window function creates and manages a window for displaying city-specific data summaries.
+        The window includes a dropdown menu for selecting a city and buttons for showing the summary and going back.
+    
+        The function follows these steps:
+        1. Define the layout of the window, including the dropdown and buttons.
+        2. Create a window with the defined layout and a title.
+        3. Enter an event loop to process user actions.
+           - The loop reads user events and values.
+           - If the user closes the window or clicks 'Back', the loop breaks.
+           - If 'Show Summary' is clicked, it proceeds to show statistics for the selected city.
+           - A check is performed to ensure a city is selected before proceeding.
+           - If no city is selected, a warning popup is shown.
+           - If a city is selected, it calculates and displays statistics in a popup.
+        4. Close the window when the event loop is exited.
+        """
 
     # Define the layout of the city summary window 
     layout = [ 
