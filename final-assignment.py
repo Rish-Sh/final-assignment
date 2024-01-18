@@ -573,7 +573,25 @@ def apply_filters(values):
 
 # Function to create the overall dashboard
 def create_dashboard_window():
-
+    """ 
+        Creates and returns the main dashboard window for the Australia Domestic Flights Analysis application. 
+ 
+        This function sets up the graphical user interface for the application's main dashboard. It offers 
+        several analysis options, each represented by a button, allowing the user to explore different aspects 
+        of domestic flight data in Australia. 
+ 
+        The dashboard provides the following options: 
+        - Explore Data: To view and explore the dataset. 
+        - Show Passenger Trips Trend: To visualize trends in passenger trips. 
+        - Compare Passenger Trips Trends of Two City Pairs: To compare trends between two specific city pairs. 
+        - Analyze Load Factor of City Pair: To analyze the load factor for a specific city pair. 
+        - City Specific Data Summary: To view summary statistics for a specific city. 
+        - Distance vs Passenger Load analysis: To analyze the relationship between distance and passenger load. 
+        - Exit: To close the application. 
+ 
+        Returns: 
+        sg.Window: The main dashboard window of the application with the specified layout and size. 
+        """ 
     # Layout definition for the main GUI window
     layout = [
         [sg.Text("Choose an analysis option:")],
@@ -585,6 +603,8 @@ def create_dashboard_window():
         [sg.Button('Distance vs Passenger Load analysis', key='-DIST_VS_LOAD-')],
         [sg.Button('Exit')]
     ]
+
+    # Returns the main dashboard window
     return sg.Window('Australia Domestic Flights Analysis', layout, size=(400, 250))
 
 
