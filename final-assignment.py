@@ -769,3 +769,17 @@ def load_factor_analysis_window():
                 # Clean up and close the window 
 
     window.close()
+
+def city_summary_window(): 
+
+    # Define the layout of the city summary window 
+    layout = [ 
+        # Dropdown menu to select a city from the unique cities in the dataset 
+        [sg.Text('Select City:'), sg.Combo(data['City1'].unique(), key='-CITY-')], 
+        # Buttons for showing the city summary and going back 
+        [sg.Button('Show Summary'), sg.Button('Back')] 
+    ] 
+
+    # Create the window with the given layout and a title 
+    window_title = 'City Specific Data Summary' 
+    window = sg.Window(window_title, layout, finalize=True) 
