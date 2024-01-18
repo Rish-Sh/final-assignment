@@ -660,9 +660,33 @@ def trend_analysis_window():
                 
     window.close() 
 
-# Layout definition for the compare two city pairs GUI window     
+# Function to create and handle the city pair comparison window 
 def compare_city_pairs_window(): 
+    """
+    Creates and manages the window for comparing passenger trips trends between two city pairs.
+
+    This function sets up a window where users can select two city pairs from a list and compare their
+    passenger trips trends. The window includes two list boxes for selecting city pairs, a button to trigger
+    the comparison, and a canvas where the comparison plot is displayed.
+
+    Parameters:
+    city_pairs (list): A list of city pair strings to choose from for comparison.
+
+    The function handles the following user interactions:
+    - Selecting city pairs from the list boxes and displaying their comparison on the canvas.
+    - Showing a popup message if both city pairs are not selected.
+    - Closing the window either when the user clicks 'Back' or closes the window.
+
+    Output/Result:
+    Upon successful selection of two city pairs and clicking the 'Compare' button, the function will
+    render a plot on the canvas illustrating the comparative trend of passenger trips between the
+    selected city pairs. The plot will have 'Date' on the x-axis and 'Passenger Trips' on the y-axis,
+    with each city pair represented as a separate line on the graph. This visual comparison allows users
+    to easily discern differences and similarities in travel trends between the two city pairs. If the comparison
+    cannot be made due to missing data or unselected city pairs, the user will be notified with a popup message.
+    """
     
+    # Layout definition for the compare two city pairs GUI window  
     layout = [ 
         [sg.Text("Select First City Pair for Comparison:")], 
         [sg.Listbox(city_pairs, select_mode='single', size=(30, 6), key='-CITYPAIR1-')], 
