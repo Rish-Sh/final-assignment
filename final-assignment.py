@@ -606,5 +606,41 @@ def create_dashboard_window():
 
     # Returns the main dashboard window
     return sg.Window('Australia Domestic Flights Analysis', layout, size=(400, 250))
+    
+# Function to create and handle the trend analysis window 
+def trend_analysis_window(): 
 
+    # Layout definition for the passenger trips trend analysis GUI window 
+    layout = [ 
+        [sg.Text("City 1:"), sg.InputText(key='-CITY1-')], 
+        [sg.Text("City 2:"), sg.InputText(key='-CITY2-')], 
+        [sg.Button('Show Trend')], 
+        [sg.Canvas(key='-CANVAS-')], 
+        [sg.Button('Back')] 
+    ] 
+    
+    # Create the window with the specified layout 
+    window = sg.Window('Show Trend', layout, finalize=True) 
+    canvas = window['-CANVAS-'].TKCanvas 
+    
+    # Event loop for user interaction handling 
+    while True: 
+        event, values = window.read() 
+        
+        if event in (sg.WIN_CLOSED, 'Back'): 
+            break 
+            
+        if event == 'Show Trend': 
+            city1, city2 = values['-CITY1-'], values['-CITY2-'] 
+            
+            if city1 and city2: 
+                # Plot the trend for the entered city pair 
+                plot_trend(get_city_pair_data(city1, city2), canvas) 
+                
+            else: 
+                
+                sg.popup("Please enter both City 1 and City 2.") 
+                # Close the window 
+    
+    window.close() 
 
