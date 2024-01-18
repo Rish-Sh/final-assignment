@@ -720,3 +720,20 @@ def compare_city_pairs_window():
             compare_two_city_pairs(values['-CITYPAIR1-'][0], values['-CITYPAIR2-'][0], canvas) 
             
     window.close() 
+
+def load_factor_analysis_window(): 
+
+    # Define GUI layout elements 
+    layout = [ 
+        [sg.Text("Load Factor Analysis")], 
+        [sg.Text("City 1:"), sg.InputText(key='-LOAD_CITY1-')], 
+        [sg.Text("City 2:"), sg.InputText(key='-LOAD_CITY2-')], 
+        [sg.Button('Analyze Load Factor')], 
+        [sg.Canvas(key='-CANVAS-')], 
+        [sg.Button('Back')] 
+    ] 
+
+    # Initialize window with layout 
+    window = sg.Window('Load Factor Analysis', layout, finalize=True) 
+    canvas = window['-CANVAS-'].TKCanvas 
+    
