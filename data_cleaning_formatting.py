@@ -20,43 +20,35 @@ def load_and_clean_data(filepath) -> pd.DataFrame:
     - Exception: Catches any other exceptions, with the error message printed to the console.
 
     Examples:
+    - If the file 'city_pairs.csv' contains valid data:
     data = load_and_clean_data('city_pairs.csv')
-    This would load data from 'city_pairs.csv' and clean it.
+    This would load and clean the data from 'city_pairs.csv', standardizing city names and converting dates.
 
+    - If the file 'nonexistent_file.csv' does not exist:
     data = load_and_clean_data('nonexistent_file.csv')
-    This would attempt to load data from 'nonexistent_file.csv' and print 'File not found.'
+    This would raise a FileNotFoundError.
+
+    - If the file 'empty_file.csv' exists but is empty:
+    data = load_and_clean_data('empty_file.csv')
+    This would raise a pd.errors.EmptyDataError.
     """
 
-    # Define exceptions to be caught
-    file_not_found = FileNotFoundError
-    file_is_empty = pd.errors.EmptyDataError
+    # Load data from the CSV file into a DataFrame
+    data = pd.read_csv(filepath)
 
-    try:
-        
-        # Load data from the CSV file into a DataFrame
-        data = pd.read_csv(filepath)
+    # Define the empty file error
+    file_is_empty = data.empty
 
-        # Standardize the case of city names
-        data['City1'] = data['City1'].str.title()
-        data['City2'] = data['City2'].str.title()
+    # Check if the file is empty
+    if file_is_empty:
+        raise pd.errors.EmptyDataError("The file is empty.")
 
-        # Convert the month column to datetime format
-        data['Date'] = pd.to_datetime(data['Month'], format='%b-%y')
+    # Standardize the case of city names
+    data['City1'] = data['City1'].str.title()
+    data['City2'] = data['City2'].str.title()
 
-        # Return the cleaned DataFrame
-        return data
+    # Convert the month column to datetime format
+    data['Date'] = pd.to_datetime(data['Month'], format='%b-%y')
 
-    except file_not_found:
-        
-        # Print error message if file is not found
-        print('File not found.')
-
-    except file_is_empty:
-        
-        # Print error message if file is empty
-        print('File is empty.')
-
-    except Exception as e:
-        
-        # Print a generic error message for any other exception
-        print(f'An error occurred: {e}')
+    # Return the cleaned DataFrame
+    return data
