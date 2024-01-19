@@ -30,7 +30,7 @@ def update_canvas(fig, canvas):
         for child in canvas.winfo_children():
             child.destroy()
 
-        # Embed the new figure in the Tkinter canvas and display the canvas
+    # Embed the new figure in the Tkinter canvas and display the canvas
     figure_canvas_agg = FigureCanvasTkAgg(fig, master=canvas)
     figure_canvas_agg.draw()
     figure_canvas_agg.get_tk_widget().pack(side='top', fill='both', expand=1)
@@ -174,52 +174,35 @@ def analyze_load_factor(city1, city2, canvas):
         "No data found for the city pair: Sydney - Melbourne."
     """
 
-    # Query the dataset for the specified city pair.
-
+    # Query the dataset for the specified city pair
     pair_data = data.query("City1 == @city1 and City2 == @city2")
 
-    # If no data is found for the city pair, display a popup and return early.
-
+    # If no data is found for the city pair, display a popup and return early
     if pair_data.empty:
         popup_message = f"No data found for the city pair: {city1} - {city2}"
-
         sg.popup(popup_message)
-
         return
 
-        # Begin plotting the data if it exists.
-
+    # Begin plotting the data if it exists.
     fig = plt.figure(figsize=(5, 4))
-
     plot_dates = pair_data['Date']
-
     plot_values = pair_data['Passenger_Load_Factor']
-
     plt.plot(plot_dates, plot_values, label="Passenger Load Factor")
 
     # Configure plot aesthetics.
-
     plt.title(f'Passenger Load Factor for {city1} - {city2}')
-
     plt.xlabel('Date')
-
     plt.ylabel('Load Factor (%)')
-
     plt.xticks(rotation=45)
-
     plt.legend(loc="best")
-
     plt.grid(True)
-
     plt.tight_layout()
 
     # Display the updated plot on the canvas.
-
     update_canvas(fig, canvas)
 
 
-# Prepare the list of city pairs from the data for dropdowns or listboxes in the GUI.
-
+# Prepare the list of city pairs from the data for dropdowns or listboxes in the GUI
 city_pairs = [f"{city1} - {city2}" for city1, city2 in zip(data['City1'], data['City2'])]
 
 
@@ -250,7 +233,6 @@ def calculate_city_stats(city, dataset):
         the average load factor for these trips was 78.5%, and the most common destination city was Los Angeles.
     """
     # Filter the dataset for the selected city.
-
     city_data = dataset[dataset['City1'] == city]
 
     # Calculate the total number of trips and the average load factor.
@@ -313,8 +295,6 @@ as the following:
 """
 
     # Extract the relevant columns from the dataset.
-
-
     distance = data['Distance_GC_(km)']
     load_factor = data['Passenger_Load_Factor']
 
@@ -394,20 +374,20 @@ def filter_most_aircraft_trips(data):
 
 def filter_highest_load_factor(data):
     """
-Sorts and filters the dataset to find the top 10 entries with the highest passenger load factor.
+    Sorts and filters the dataset to find the top 10 entries with the highest passenger load factor.
 
-Parameters:
-- data (DataFrame): The dataset to be sorted and filtered.
+    Parameters:
+    - data (DataFrame): The dataset to be sorted and filtered.
 
-Process:
-- Sorts the dataset in descending order based on the 'Passenger_Load_Factor' column.
-- Retrieves the top 10 entries with the highest passenger load factor.
+    Process:
+    - Sorts the dataset in descending order based on the 'Passenger_Load_Factor' column.
+    - Retrieves the top 10 entries with the highest passenger load factor.
 
-Returns:
-- highest_load_factor (DataFrame): The top 10 entries sorted by passenger load factor.
-"""
+    Returns:
+    - highest_load_factor (DataFrame): The top 10 entries sorted by passenger load factor.
+    """
 
-
+    
     sorted_data = data.sort_values(by='Passenger_Load_Factor', ascending=False)
 
     # Retrieves the top 10 rows with the highest 'Passenger_Load_Factor'
@@ -460,8 +440,6 @@ def data_exploration_window():
     """
 
     # Define the layout of the window with various UI elements
-
-
     layout = [
 
         # Section for filter options
@@ -501,7 +479,7 @@ def data_exploration_window():
         if event in (sg.WIN_CLOSED, 'Back'):
             break
 
-            # Handle events for filtering data based on different criteria
+        # Handle events for filtering data based on various criteria
         elif event == 'Most Passenger Trips':
             filtered_data = filter_most_passenger_trips(data)
             window['-TABLE-'].update(values=filtered_data.values.tolist())
@@ -518,16 +496,16 @@ def data_exploration_window():
             filtered_data = filter_lowest_load_factor(data)
             window['-TABLE-'].update(values=filtered_data.values.tolist())
 
-            # Event to apply custom filters
+        # Event to apply custom filters
         elif event == 'Apply Filter':
             filtered_data = apply_filters(values)
             window['-TABLE-'].update(values=filtered_data.values.tolist())
 
-            # Event to reset the filters and display the original data
+        # Event to reset the filters and display the original data
         elif event == 'Reset Filter':
             window['-TABLE-'].update(values=data.values.tolist())
 
-            # Close the window once the loop is exited
+    # Close the window once the loop is exited
     window.close()
 
 
@@ -561,12 +539,12 @@ def apply_filters(values):
     if values['-FILTER_CITY1-']:
         filtered_data = filtered_data[filtered_data['City1'] == values['-FILTER_CITY1-']]
 
-        # Check if a filter for 'City 2' is applied.
+    # Check if a filter for 'City 2' is applied.
     # If so, filter the data to include only those entries where 'City2' matches the input value.
     if values['-FILTER_CITY2-']:
         filtered_data = filtered_data[filtered_data['City2'] == values['-FILTER_CITY2-']]
 
-        # Check if both start and end dates are provided for filtering.
+    # Check if both start and end dates are provided for filtering.
     # If so, filter the data to include only those entries within the specified date range.
     if values['-DATE_START-'] and values['-DATE_END-']:
         filtered_data = filtered_data[
@@ -574,7 +552,7 @@ def apply_filters(values):
             (filtered_data['Date'] <= values['-DATE_END-'])
             ]
 
-        # Return the filtered dataset
+    # Return the filtered dataset
     return filtered_data
 
 
@@ -600,8 +578,6 @@ def create_dashboard_window():
     sg.Window: The main dashboard window of the application with the specified layout and size.
     """
     # Layout definition for the main GUI window
-
-
     layout = [
         [sg.Text("Choose an analysis option:")],
         [sg.Button('Explore Data', key='-EXPLORE_DATA-')],
@@ -667,7 +643,8 @@ def trend_analysis_window():
 
             else:
                 sg.popup("Please enter both City 1 and City 2.")
-
+                
+    # Close the window once the loop is exited
     window.close()
 
 
@@ -715,7 +692,8 @@ def compare_city_pairs_window():
     # Event loop for user interaction handling
     while True:
         event, values = window.read()
-
+        
+        # Check if the user wants to close the window or go back
         if event in (sg.WIN_CLOSED, 'Back'):
             break
 
@@ -725,9 +703,10 @@ def compare_city_pairs_window():
                 sg.popup("Please select two city pairs for comparison.")
                 continue
 
-                # Call function to compare the selected city pairs
+            # Call function to compare the selected city pairs
             compare_two_city_pairs(values['-CITYPAIR1-'][0], values['-CITYPAIR2-'][0], canvas)
-
+            
+    # Close the window once the loop is exited
     window.close()
 
 
@@ -765,20 +744,23 @@ def load_factor_analysis_window():
     # Event processing loop
     while True:
         event, values = window.read()
+        
         # Check for window close or navigation events if program closed then quit the program
         if event in (sg.WIN_CLOSED, 'Back'):
             break
-            # Analyze load factor upon button click
+            
+        # Analyze load factor upon button click
         if event == 'Analyze Load Factor':
             city1, city2 = values['-LOAD_CITY1-'], values['-LOAD_CITY2-']
+            
             # Proceed only if both city names are provided
             if city1 and city2:
                 analyze_load_factor(city1, city2, canvas)
             else:
                 # Prompt user for missing city names
                 sg.popup("Both City 1 and City 2 are required for load factor analysis.")
-                # Clean up and close the window
-
+    
+    # Close the window once the loop is exited
     window.close()
 
 
@@ -823,7 +805,7 @@ def city_summary_window():
             # Exit the loop
             break
 
-            # Respond to 'Show Summary' button click
+        # Respond to 'Show Summary' button click
         if event == 'Show Summary':
             # Extract the chosen city from the user input
             city_selected = values['-CITY-']
@@ -848,7 +830,7 @@ def city_summary_window():
             # Display the statistics in a popup window
             sg.popup(summary_message)
 
-            # Close the window when the loop is exited
+    # Close the window when the loop is exited
     window.close()
 
 
@@ -896,7 +878,6 @@ def distance_vs_load_window():
 
         # Check for window close or 'Back' button events
         if event == sg.WIN_CLOSED or event == 'Back':
-
             break
 
             # Handle event to analyze the data and plot on the canvas
@@ -905,8 +886,7 @@ def distance_vs_load_window():
             # Function to perform the analysis and plotting
             analyze_distance_vs_load(canvas)
 
-            # Close the window once the loop is exited
-
+    # Close the window once the loop is exited
     window.close()
 
 
@@ -941,7 +921,6 @@ while True:
 
     # Check if the window is closed or the 'Exit' button is clicked
     if event == sg.WIN_CLOSED or event == 'Exit':
-
         break
 
         # Handle event for showing trend analysis
@@ -968,6 +947,6 @@ while True:
     elif event == '-DIST_VS_LOAD-':
         distance_vs_load_window()
 
-        # Close the dashboard window after exiting the loop
+# Close the dashboard window after exiting the loop
 dashboard_window.close()
 
