@@ -769,7 +769,7 @@ def city_summary_window():
     """
         The city_summary_window function creates and manages a window for displaying city-specific data summaries.
         The window includes a dropdown menu for selecting a city and buttons for showing the summary and going back.
-
+    
         The function follows these steps:
         1. Define the layout of the window, including the dropdown and buttons.
         2. Create a window with the defined layout and a title.
@@ -781,6 +781,12 @@ def city_summary_window():
            - If no city is selected, a warning popup is shown.
            - If a city is selected, it calculates and displays statistics in a popup.
         4. Close the window when the event loop is exited.
+
+        Results:
+        When 'Show Summary' is clicked, the following statistics for the selected city are displayed:
+        - Total number of trips: The total number of trips that originate from the selected city.
+        - Average load factor: The average load factor percentage of the trips originating from the selected city.
+        - Most traveled to city: The city that is most frequently traveled to from the selected city.
         """
 
     # Define the layout of the city summary window
