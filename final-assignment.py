@@ -2,6 +2,7 @@ from data_cleaning_formatting import load_and_clean_data
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg  # TkAgg backend for embedding matplotlib plots in Tkinter
 import matplotlib.pyplot as plt  # Matplotlib for plotting graphs
 import PySimpleGUI as sg  # PySimpleGUI is used for creating the graphical user interface
+import pandas as pd # Pandas is used for data manipulation an analysis
 
 # Loading and Cleaning Australian Domestic Flight
 # The 'load_and_clean_data' function is invoked with the path to a CSV file containing australian domestic flight data.
@@ -152,7 +153,7 @@ def plot_passenger_trips_trend(city_pair_data, canvas):
 
 
 # Function to compare two city pairs
-def compare_two_city_pairs_passenegr_trip_trends(pair1, pair2, canvas):
+def compare_two_city_pairs_passenger_trip_trends(pair1, pair2, canvas):
     """
     Compares passenger trips between two pairs of cities and plots the data on a given canvas.
 
@@ -166,10 +167,10 @@ def compare_two_city_pairs_passenegr_trip_trends(pair1, pair2, canvas):
     canvas (tkinter.Canvas): The Tkinter canvas widget where the plot will be displayed.
     Examples:
     canvas = tkinter.Canvas(master)
-    compare_two_city_pairs_passenegr_trip_trends('Adelaide - Brisbane', 'Sydney - Brisbane', canvas)
+    compare_two_city_pairs_passenger_trip_trends('Adelaide - Brisbane', 'Sydney - Brisbane', canvas)
     This will plot the passenger trips trend for 'Adelaide - Brisbane' and 'Sydney - Brisbane' on the same graph.
 
-    compare_two_city_pairs_passenegr_trip_trends('CityA - CityB', 'CityC - CityD', canvas)
+    compare_two_city_pairs_passenger_trip_trends('CityA - CityB', 'CityC - CityD', canvas)
     If data for either 'CityA - CityB' or 'CityC - CityD' is not available, the plot will include only the city pair 
     with available data.
     """
@@ -841,7 +842,7 @@ def compare_city_pairs_window():
                 continue
 
             # Call function to compare the selected city pairs
-            compare_two_city_pairs_passenegr_trip_trends(values['-CITYPAIR1-'][0], values['-CITYPAIR2-'][0], canvas)
+            compare_two_city_pairs_passenger_trip_trends(values['-CITYPAIR1-'][0], values['-CITYPAIR2-'][0], canvas)
             
     # Close the window once the loop is exited
     window.close()
