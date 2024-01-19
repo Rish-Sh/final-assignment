@@ -9,8 +9,8 @@ import PySimpleGUI as sg  # PySimpleGUI is used for creating the graphical user 
 data = load_and_clean_data('dom_city_pair.csv')
 
 
-# Function to update the Tkinter canvas
-def update_canvas(fig, canvas):
+# Function to update the Tkinter canvas 
+def update_dashboard_canvas(fig, canvas):
     """
     Updates the specified canvas with a new matplotlib figure.
 
@@ -21,19 +21,46 @@ def update_canvas(fig, canvas):
     Parameters:
     fig (matplotlib.figure.Figure): The matplotlib figure to display on the canvas.
     canvas (tkinter.Canvas): The Tkinter canvas widget to be updated with the figure.
+
+    Example:
+    fig = matplotlib.figure.Figure(figsize=(5, 4), dpi=100)
+    canvas = tkinter.Canvas(master)
+    update_dashboard_canvas(fig, canvas)
+    This would update the canvas with the specified matplotlib figure.
     """
 
-    # Clear existing children widgets from the canvas, if there are any
-
-
-    if canvas.children:
-        for child in canvas.winfo_children():
-            child.destroy()
+    # Clears old children widgets
+    __clear_existing_widgets(canvas)
 
     # Embed the new figure in the Tkinter canvas and display the canvas
     figure_canvas_agg = FigureCanvasTkAgg(fig, master=canvas)
     figure_canvas_agg.draw()
     figure_canvas_agg.get_tk_widget().pack(side='top', fill='both', expand=1)
+
+
+# Clears old children widgets
+def __clear_existing_widgets(canvas):
+    """
+    Clears all children widgets from the given Tkinter canvas.
+
+    This function is useful in scenarios where the canvas needs to be reset or updated with new content.
+    It iterates over all children widgets of the provided canvas and removes them.
+
+    Parameters:
+    canvas (tkinter.Canvas): The Tkinter canvas widget from which all children widgets will be removed.
+
+    Example:
+    canvas = tkinter.Canvas(master)
+    # Adding widgets to canvas
+    canvas.create_line(10, 10, 200, 50)
+    clear_existing_widgets(canvas)
+    This will remove all children widgets, including the line drawn, from the canvas.
+    """
+
+    # Clear existing children widgets from the canvas, if there are any
+    if canvas.children:
+        for child in canvas.winfo_children():
+            child.destroy()
 
 
 # Function to fetch city pair data
@@ -101,7 +128,7 @@ def plot_trend(city_pair_data, canvas):
     plt.tight_layout()
 
     # Update the canvas with new plot of the city pair passenger trips trend
-    update_canvas(fig, canvas)
+    update_dashboardd_canvas(fig, canvas)
 
 
 # Function to compare two city pairs
@@ -142,7 +169,7 @@ def compare_two_city_pairs(pair1, pair2, canvas):
     plt.tight_layout()
 
     # Update the canvas with the new plot of the passenger trips trends of the two city pairs
-    update_canvas(fig, canvas)
+    update_dashboard_canvas(fig, canvas)
 
 
 def analyze_load_factor(city1, city2, canvas):
@@ -199,7 +226,7 @@ def analyze_load_factor(city1, city2, canvas):
     plt.tight_layout()
 
     # Display the updated plot on the canvas.
-    update_canvas(fig, canvas)
+    update_dashboard_canvas(fig, canvas)
 
 
 # Prepare the list of city pairs from the data for dropdowns or listboxes in the GUI
@@ -321,7 +348,7 @@ def analyze_distance_vs_load(canvas):
     color_bar.set_label('Count in bin')
 
     # Display the plot on the canvas.
-    update_canvas(fig, canvas)
+    update_dashboard_canvas(fig, canvas)
 
 
 def filter_most_passenger_trips(data):
