@@ -148,7 +148,7 @@ def plot_passenger_trips_trend(city_pair_data, canvas):
     plt.tight_layout()
 
     # Update the canvas with new plot of the city pair passenger trips trend
-    update_dashboardd_canvas(fig, canvas)
+    update_dashboard_canvas(fig, canvas)
 
 
 # Function to compare two city pairs
@@ -259,6 +259,8 @@ def analyze_city_pair_load_factor(city1, city2, canvas):
 city_pairs = [f"{city1} - {city2}" for city1, city2 in zip(data['City1'], data['City2'])]
 
 
+# Function to calculate the city specific statistics of total number of trips, average load_factor
+# and the most traveled to city
 def calculate_city_stats(city, dataset):
     """
     Calculate and return key statistics for a given city based on the 'dataset'.
@@ -322,6 +324,7 @@ def calculate_city_stats(city, dataset):
     return results
 
 
+# Function to analyze the flight distance and passenger load factor correlation
 def analyze_distance_vs_load(canvas):
     """
     Plot a hexbin chart to analyze the relationship between flight distance and passenger load factor.
@@ -391,6 +394,7 @@ def analyze_distance_vs_load(canvas):
     update_dashboard_canvas(fig, canvas)
 
 
+# Function to filter the data for the city pairs with the most passenger trips 
 def filter_most_passenger_trips(data):
     """
     Sorts and filters the dataset to retrieve the top 10 entries with the most passenger trips.
@@ -419,6 +423,7 @@ def filter_most_passenger_trips(data):
     return top_passenger_trips
 
 
+# Function to filter the data for the city pairs with the most aircraft trips
 def filter_most_aircraft_trips(data):
     """
     Sorts and filters the dataset to find the top 10 entries with the highest number of aircraft trips.
@@ -442,6 +447,7 @@ def filter_most_aircraft_trips(data):
     return top_aircraft_trips
 
 
+# Function to filter the data for the city pairs with the highest load factor
 def filter_highest_load_factor(data):
     """
     Sorts and filters the dataset to find the top 10 entries with the highest passenger load factor.
@@ -465,6 +471,7 @@ def filter_highest_load_factor(data):
     return highest_load_factor
 
 
+# Function to filter the data for the city pairs with the lowest load factor
 def filter_lowest_load_factor(data):
     """
     Sorts and filters the dataset to find the top 10 entries with the lowest passenger load factor.
@@ -576,7 +583,7 @@ def data_exploration_window():
     # Close the window once the loop is exited
     window.close()
 
-
+# Function to apply the user input filters (city1, city2, start date, end date)
 def apply_filters(values):
     """
     Applies various filters to the dataset based on user input values.
@@ -909,6 +916,7 @@ def city_summary_window():
     window.close()
 
 
+# Function to create the distance vs load factor window
 def distance_vs_load_window():
     """
     Creates and manages a GUI window for analyzing the relationship between distance and
