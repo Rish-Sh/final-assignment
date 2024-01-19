@@ -416,15 +416,16 @@ def filter_most_passenger_trips(data) -> pd.DataFrame:
     
     Example:
     sample_data = pd.DataFrame({
-        'City1': ['New York', 'Los Angeles', 'Chicago', 
-        'New York', 'Miami', 'Chicago', 'Boston', 'Dallas', 'Atlanta', 'Denver'],
-        'City2': ['Los Angeles', 'Chicago', 'New York', 
-        'Miami', 'Chicago', 'Boston', 'Dallas', 'Atlanta', 'Denver', 'New York'],
+        'City1': ['Sydney', 'Melbourne', 'Brisbane', 'Perth', 'Adelaide',
+        'Canberra', 'Hobart', 'Darwin', 'Gold Coast', 'Newcastle'],
+        'City2': ['Melbourne', 'Sydney', 'Perth', 'Brisbane', 'Canberra',
+        'Adelaide', 'Darwin', 'Hobart', 'Newcastle', 'Gold Coast'],
         'Passenger_Trips': [1200, 800, 950, 700, 300, 400, 500, 600, 1100, 1000]
         })
     top_trips = filter_most_passenger_trips(sample_data)
     print(top_trips)
-    This will output the top 10 city pairs from the sample_data DataFrame sorted by 'Passenger_Trips' in descending order.
+    This will output the top 10 city pairs from the sample_data DataFrame 
+    sorted by 'Passenger_Trips' in descending order.
     """
 
     # Sorting the data by most passenger trips
@@ -438,7 +439,7 @@ def filter_most_passenger_trips(data) -> pd.DataFrame:
 
 
 # Function to filter the data for the city pairs with the most aircraft trips
-def filter_most_aircraft_trips(data):
+def filter_most_aircraft_trips(data) -> pd.DataFrame:
     """
     Sorts and filters the dataset to find the top 10 entries with the highest number of aircraft trips.
 
@@ -451,13 +452,28 @@ def filter_most_aircraft_trips(data):
 
     Returns:
     - top_aircraft_trips (DataFrame): The top 10 entries sorted by the number of aircraft trips.
+
+    Examples:
+    sample_data = pd.DataFrame({
+        'City1': ['Sydney', 'Melbourne', 'Brisbane', 'Perth', 'Adelaide',
+        'Canberra', 'Hobart', 'Darwin', 'Gold Coast', 'Newcastle'],
+        'City2': ['Melbourne', 'Sydney', 'Perth', 'Brisbane', 'Canberra',
+        'Adelaide', 'Darwin', 'Hobart', 'Newcastle', 'Gold Coast'],
+        'Aircraft_Trips': [1500, 1400, 1300, 1200, 1100, 1000, 900, 800, 700, 600]
+         })
+    top_trips = filter_most_aircraft_trips(sample_data)
+    print(top_trips)
+    This would output the top 10 city pairs from the sample_data DataFrame,
+    consisting of Australian cities, sorted by 'Aircraft_Trips' in descending order.
     """
-    
+
+    # Sorting data by most aircraft trips
     sorted_data = data.sort_values(by='Aircraft_Trips', ascending=False)
 
     # Retrieves the top 10 rows with the highest 'Aircraft_Trips'
     top_aircraft_trips = sorted_data.head(10)
 
+    # Returns city pairs with most aircraft trips
     return top_aircraft_trips
 
 
