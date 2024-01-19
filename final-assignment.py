@@ -232,6 +232,7 @@ def calculate_city_stats(city, dataset):
         This indicates that from New York, there were 120 trips recorded in the dataset,
         the average load factor for these trips was 78.5%, and the most common destination city was Los Angeles.
     """
+    
     # Filter the dataset for the selected city.
     city_data = dataset[dataset['City1'] == city]
 
@@ -256,43 +257,43 @@ def calculate_city_stats(city, dataset):
 
 def analyze_distance_vs_load(canvas):
     """
-Plot a hexbin chart to analyze the relationship between flight distance and passenger load factor.
+    Plot a hexbin chart to analyze the relationship between flight distance and passenger load factor.
 
-The hexbin chart uses color coding to represent the density of points in the plot, with each hexagonal
-bin displaying the count of occurrences within that bin. The plot is created on a Tkinter canvas passed
-to the function. The function also calculates and displays the Pearson Correlation Coefficient to quantify
-the linear relationship between distance and load factor.
+    The hexbin chart uses color coding to represent the density of points in the plot, with each hexagonal
+    bin displaying the count of occurrences within that bin. The plot is created on a Tkinter canvas passed
+    to the function. The function also calculates and displays the Pearson Correlation Coefficient to quantify
+    the linear relationship between distance and load factor.
 
-Arguments:
-canvas (Canvas): The Tkinter canvas object on which the hexbin chart will be plotted.
+    Arguments:
+    canvas (Canvas): The Tkinter canvas object on which the hexbin chart will be plotted.
 
-Results:
-The function will render a hexbin chart on the provided canvas object. This chart will visualize the
-relationship between the great-circle distance of flights and their corresponding passenger load factors,
-along with an annotation for the correlation coefficient.
+    Results:
+    The function will render a hexbin chart on the provided canvas object. This chart will visualize the
+    relationship between the great-circle distance of flights and their corresponding passenger load factors,
+    along with an annotation for the correlation coefficient.
 
-Example:
-Assuming 'data' is a DataFrame that contains two columns: 'Distance_GC_(km)' and 'Passenger_Load_Factor',
-with each row representing a flight, calling `analyze_distance_vs_load(canvas)` will generate a plot such
-as the following:
+    Example:
+    Assuming 'data' is a DataFrame that contains two columns: 'Distance_GC_(km)' and 'Passenger_Load_Factor',
+    with each row representing a flight, calling `analyze_distance_vs_load(canvas)` will generate a plot such
+    as the following:
 
-+--------------------------------------------------------+
-|                                                        |
-|     Distance vs. Passenger Load Factor                 |
-|     Correlation: 0.76                                  |
-|                                                        |
-|     ^                                                  |
-|     |  [Dense area with dark color indicating          |
-|     |   high passenger load factor at various distances]|
-|     |                                                  |
-|     |  [Less dense area with lighter color indicating   |
-|     |   lower load factors at various distances]        |
-|     |                                                  |
-|     +-------------------------------------------------->|
-|       Route Distance (km)                              |
-|                                                        |
-+--------------------------------------------------------+
-"""
+    +--------------------------------------------------------+
+    |                                                        |
+    |     Distance vs. Passenger Load Factor                 |
+    |     Correlation: 0.76                                  |
+    |                                                        |
+    |     ^                                                  |
+    |     |  [Dense area with dark color indicating          |
+    |     |   high passenger load factor at various distances]|
+    |     |                                                  |
+    |     |  [Less dense area with lighter color indicating   |
+    |     |   lower load factors at various distances]        |
+    |     |                                                  |
+    |     +-------------------------------------------------->|
+    |       Route Distance (km)                              |
+    |                                                        |
+    +--------------------------------------------------------+
+    """
 
     # Extract the relevant columns from the dataset.
     distance = data['Distance_GC_(km)']
@@ -342,6 +343,7 @@ def filter_most_passenger_trips(data):
     Notes:
     - This function is designed to operate on pandas DataFrame objects.
     """
+    
     sorted_data = data.sort_values(by='Passenger_Trips', ascending=False)
 
     # Next, top 10 rows with the highest passenger trips are retrieved
@@ -364,6 +366,7 @@ def filter_most_aircraft_trips(data):
     Returns:
     - top_aircraft_trips (DataFrame): The top 10 entries sorted by the number of aircraft trips.
     """
+    
     sorted_data = data.sort_values(by='Aircraft_Trips', ascending=False)
 
     # Retrieves the top 10 rows with the highest 'Aircraft_Trips'
@@ -387,7 +390,6 @@ def filter_highest_load_factor(data):
     - highest_load_factor (DataFrame): The top 10 entries sorted by passenger load factor.
     """
 
-    
     sorted_data = data.sort_values(by='Passenger_Load_Factor', ascending=False)
 
     # Retrieves the top 10 rows with the highest 'Passenger_Load_Factor'
@@ -410,7 +412,6 @@ def filter_lowest_load_factor(data):
     Returns:
     - lowest_load_factor (DataFrame): The top 10 entries sorted by the lowest passenger load factor.
     """
-
 
     sorted_data = data.sort_values(by='Passenger_Load_Factor', ascending=True)
 
@@ -577,6 +578,7 @@ def create_dashboard_window():
     Returns:
     sg.Window: The main dashboard window of the application with the specified layout and size.
     """
+    
     # Layout definition for the main GUI window
     layout = [
         [sg.Text("Choose an analysis option:")],
@@ -713,19 +715,19 @@ def compare_city_pairs_window():
 # Function to create the load factor analysis window
 def load_factor_analysis_window():
     """
-        Create and handle the load factor analysis window.
-        In this window, the user can input two city names (City 1 and City 2) and then trigger an analysis
-        of the load factor between these cities by clicking the 'Analyze Load Factor' button. A graph will be
-        plotted displaying the load factor trend over time on a canvas within the GUI. The user is required
-        to enter valid names for both cities before the analysis can proceed. If either city name is left
-        blank, a message will prompt the user to fill in both fields.
-        The window also contains a 'Back' button to return to the previous menu.
+    Create and handle the load factor analysis window.
+    In this window, the user can input two city names (City 1 and City 2) and then trigger an analysis
+    of the load factor between these cities by clicking the 'Analyze Load Factor' button. A graph will be
+    plotted displaying the load factor trend over time on a canvas within the GUI. The user is required
+    to enter valid names for both cities before the analysis can proceed. If either city name is left
+    blank, a message will prompt the user to fill in both fields.
+    The window also contains a 'Back' button to return to the previous menu.
 
-        Example:
-            If the user inputs 'Sydney' for City 1 and 'Melbourne' for City 2 and then clicks the
-            'Analyze Load Factor' button, the function will display a graph showing the trend of load
-            factors for flights between Sydney and Melbourne.
-        """
+    Example:
+    If the user inputs 'Sydney' for City 1 and 'Melbourne' for City 2 and then clicks the
+    'Analyze Load Factor' button, the function will display a graph showing the trend of load
+    factors for flights between Sydney and Melbourne.
+    """
 
     # Define GUI layout elements
     layout = [
@@ -767,27 +769,27 @@ def load_factor_analysis_window():
 # Function to create the city summary window
 def city_summary_window():
     """
-        The city_summary_window function creates and manages a window for displaying city-specific data summaries.
-        The window includes a dropdown menu for selecting a city and buttons for showing the summary and going back.
+    The city_summary_window function creates and manages a window for displaying city-specific data summaries.
+    The window includes a dropdown menu for selecting a city and buttons for showing the summary and going back.
     
-        The function follows these steps:
-        1. Define the layout of the window, including the dropdown and buttons.
-        2. Create a window with the defined layout and a title.
-        3. Enter an event loop to process user actions.
-           - The loop reads user events and values.
-           - If the user closes the window or clicks 'Back', the loop breaks.
-           - If 'Show Summary' is clicked, it proceeds to show statistics for the selected city.
-           - A check is performed to ensure a city is selected before proceeding.
-           - If no city is selected, a warning popup is shown.
-           - If a city is selected, it calculates and displays statistics in a popup.
-        4. Close the window when the event loop is exited.
+    The function follows these steps:
+    1. Define the layout of the window, including the dropdown and buttons.
+    2. Create a window with the defined layout and a title.
+    3. Enter an event loop to process user actions.
+        - The loop reads user events and values.
+        - If the user closes the window or clicks 'Back', the loop breaks.
+        - If 'Show Summary' is clicked, it proceeds to show statistics for the selected city.
+        - A check is performed to ensure a city is selected before proceeding.
+        - If no city is selected, a warning popup is shown.
+        - If a city is selected, it calculates and displays statistics in a popup.
+    4. Close the window when the event loop is exited.
 
-        Results:
-        When 'Show Summary' is clicked, the following statistics for the selected city are displayed:
-        - Total number of trips: The total number of trips that originate from the selected city.
-        - Average load factor: The average load factor percentage of the trips originating from the selected city.
-        - Most traveled to city: The city that is most frequently traveled to from the selected city.
-        """
+    Results:
+    When 'Show Summary' is clicked, the following statistics for the selected city are displayed:
+    - Total number of trips: The total number of trips that originate from the selected city.
+    - Average load factor: The average load factor percentage of the trips originating from the selected city.
+    - Most traveled to city: The city that is most frequently traveled to from the selected city.
+    """
 
     # Define the layout of the city summary window
     layout = [
