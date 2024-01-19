@@ -152,7 +152,7 @@ def plot_passenger_trips_trend(city_pair_data, canvas):
 
 
 # Function to compare two city pairs
-def compare_two_city_pairs(pair1, pair2, canvas):
+def compare_two_city_pairs_passenegr_trip_trends(pair1, pair2, canvas):
     """
     Compares passenger trips between two pairs of cities and plots the data on a given canvas.
 
@@ -164,6 +164,14 @@ def compare_two_city_pairs(pair1, pair2, canvas):
     pair1 (str): The first city pair in the format 'City1 - City2'.
     pair2 (str): The second city pair in the format 'City1 - City2'.
     canvas (tkinter.Canvas): The Tkinter canvas widget where the plot will be displayed.
+    Examples:
+    canvas = tkinter.Canvas(master)
+    compare_two_city_pairs_passenegr_trip_trends('Adelaide - Brisbane', 'Sydney - Brisbane', canvas)
+    This will plot the passenger trips trend for 'Adelaide - Brisbane' and 'Sydney - Brisbane' on the same graph.
+
+    compare_two_city_pairs_passenegr_trip_trends('CityA - CityB', 'CityC - CityD', canvas)
+    If data for either 'CityA - CityB' or 'CityC - CityD' is not available, the plot will include only the city pair 
+    with available data.
     """
 
     # Set up the figure for plotting
@@ -753,7 +761,7 @@ def compare_city_pairs_window():
                 continue
 
             # Call function to compare the selected city pairs
-            compare_two_city_pairs(values['-CITYPAIR1-'][0], values['-CITYPAIR2-'][0], canvas)
+            compare_two_city_pairs_passenegr_trip_trends(values['-CITYPAIR1-'][0], values['-CITYPAIR2-'][0], canvas)
             
     # Close the window once the loop is exited
     window.close()
