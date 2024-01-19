@@ -14,3 +14,17 @@ class TestLoadAndCleanData(unittest.TestCase):
         self.assertIn('City2', data.columns)
         self.assertIn('Date', data.columns)
 
+    def test_file_not_found(self):
+        # Test the function with a non-existent file path
+        with self.assertRaises(FileNotFoundError):
+            load_and_clean_data('nonexistent_file.csv')
+
+    def test_empty_file(self):
+        # Test the function with an empty CSV file
+        with self.assertRaises(pd.errors.EmptyDataError):
+            load_and_clean_data('empty_file.csv')
+
+
+if __name__ == '__main__':
+    unittest.main()
+
