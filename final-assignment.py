@@ -64,7 +64,7 @@ def __clear_existing_widgets(canvas):
 
 
 # Function to fetch city pair data
-def get_city_pair_data(city1, city2):
+def get_city_pair_data(city1, city2) -> pd.DataFrame:
     """
     Retrieve domestic flight data for a specific pair of cities.
 
@@ -79,6 +79,13 @@ def get_city_pair_data(city1, city2):
     Returns:
     DataFrame or None: The subset of the 'data' DataFrame corresponding to the
     specified city pair, or None if no data is found for that city pair.
+
+    Examples:
+    get_city_pair_data('Sydney', 'Adelaide')
+    This would return the flight data between 'Sydney' and 'Adelaide' if available.
+
+    get_city_pair_data('CityX', 'CityY')
+    This would return None if there is no data for the city pair 'CityX' - 'CityY'.
     """
 
     # Get data for the specific city pair
