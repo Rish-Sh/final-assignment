@@ -478,7 +478,7 @@ def filter_most_aircraft_trips(data) -> pd.DataFrame:
 
 
 # Function to filter the data for the city pairs with the highest load factor
-def filter_highest_load_factor(data):
+def filter_highest_load_factor(data) -> pd.DataFrame:
     """
     Sorts and filters the dataset to find the top 10 entries with the highest passenger load factor.
 
@@ -491,13 +491,27 @@ def filter_highest_load_factor(data):
 
     Returns:
     - highest_load_factor (DataFrame): The top 10 entries sorted by passenger load factor.
+    Examples:
+    sample_data = pd.DataFrame({
+        'City1': ['Sydney', 'Melbourne', 'Brisbane', 'Perth', 'Adelaide',
+        'Canberra', 'Hobart', 'Darwin', 'Gold Coast', 'Newcastle'],
+        'City2': ['Melbourne', 'Sydney', 'Perth', 'Brisbane', 'Canberra',
+        'Adelaide', 'Darwin', 'Hobart', 'Newcastle', 'Gold Coast'],
+        'Passenger_Load_Factor': [85, 80, 75, 90, 65, 70, 60, 55, 50, 45]
+        })
+    highest_load_factors = filter_highest_load_factor(sample_data)
+    print(highest_load_factors)
+    This would output the top 10 city pairs from the sample_data DataFrame, 
+    consisting of Australian cities, sorted by 'Passenger_Load_Factor' in descending order.
     """
-
+    
+    # Sorting data by highest passenger load factor
     sorted_data = data.sort_values(by='Passenger_Load_Factor', ascending=False)
 
     # Retrieves the top 10 rows with the highest 'Passenger_Load_Factor'
     highest_load_factor = sorted_data.head(10)
 
+    # Returns city pairs with the highest passenger load factor
     return highest_load_factor
 
 
