@@ -101,23 +101,36 @@ def get_city_pair_data(city1, city2) -> pd.DataFrame:
 
 
 # Function to plot the passenger trips trend of a city pair
-def plot_trend(city_pair_data, canvas):
+def plot_passenger_trips_trend(city_pair_data, canvas):
     """
-    Plots the passenger trips trend between two cities on a canvas.
+    Plots the passenger trips trend between two cities on a Tkinter canvas.
 
-    This function takes two city names and a Tkinter canvas, and plots the trend of passenger trips
-    between these cities over time. If no data is found for the specified city pair, it displays a popup message.
-    The plot is then updated on the provided canvas.
+    This function takes the data for a city pair and a Tkinter canvas, and plots the trend
+    of passenger trips between these cities over time on the canvas. If no data is found for
+    the specified city pair, it displays a popup message. The plot is then updated on the
+    provided canvas.
 
     Parameters:
-    city1 (str): Name of the first city in the city pair.
-    city2 (str): Name of the second city in the city pair.
-    canvas (tkinter.Canvas): The Tkinter canvas widget to display the plot.
+    city_pair_data (DataFrame): DataFrame containing the city pair data including 'Date'
+                                and 'Passenger_Trips' columns.
+    canvas (tkinter.Canvas): The Tkinter canvas widget where the plot will be displayed.
+
+    Returns:
+    None: This function does not return anything. It either updates the canvas with the
+            plot or displays a popup message if no data is available.
+
+    Examples:
+    city_pair_data = get_city_pair_data('Adelaide', 'Brisbane')
+    canvas = tkinter.Canvas(master)
+    plot_passenger_trips_trend(city_pair_data, canvas)
+    This would plot the passenger trips trend between 'Adelaide' and 'Brisbane' on the provided canvas.
+
+    city_pair_data = get_city_pair_data('CityX', 'CityY')
+    plot_passenger_trips_trend(city_pair_data, canvas)
+    If 'CityX' and 'CityY' have no trip data, this would display a popup message and no plot will be displayed.
     """
 
     # Check if city_pair_data is empty
-
-
     if city_pair_data.empty:
         return sg.popup("No data found for the city pair")
 
@@ -675,7 +688,7 @@ def trend_analysis_window():
 
             if city1 and city2:
                 # Plot the trend for the entered city pair
-                plot_trend(get_city_pair_data(city1, city2), canvas)
+                plot_passenger_trips_trend(get_city_pair_data(city1, city2), canvas)
 
             else:
                 sg.popup("Please enter both City 1 and City 2.")
