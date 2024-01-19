@@ -395,7 +395,7 @@ def analyze_distance_vs_load(canvas):
 
 
 # Function to filter the data for the city pairs with the most passenger trips 
-def filter_most_passenger_trips(data):
+def filter_most_passenger_trips(data) -> pd.DataFrame:
     """
     Sorts and filters the dataset to retrieve the top 10 entries with the most passenger trips.
 
@@ -413,13 +413,27 @@ def filter_most_passenger_trips(data):
 
     Notes:
     - This function is designed to operate on pandas DataFrame objects.
-    """
     
+    Example:
+    sample_data = pd.DataFrame({
+        'City1': ['New York', 'Los Angeles', 'Chicago', 
+        'New York', 'Miami', 'Chicago', 'Boston', 'Dallas', 'Atlanta', 'Denver'],
+        'City2': ['Los Angeles', 'Chicago', 'New York', 
+        'Miami', 'Chicago', 'Boston', 'Dallas', 'Atlanta', 'Denver', 'New York'],
+        'Passenger_Trips': [1200, 800, 950, 700, 300, 400, 500, 600, 1100, 1000]
+        })
+    top_trips = filter_most_passenger_trips(sample_data)
+    print(top_trips)
+    This will output the top 10 city pairs from the sample_data DataFrame sorted by 'Passenger_Trips' in descending order.
+    """
+
+    # Sorting the data by most passenger trips
     sorted_data = data.sort_values(by='Passenger_Trips', ascending=False)
 
     # Next, top 10 rows with the highest passenger trips are retrieved
     top_passenger_trips = sorted_data.head(10)
 
+    # Returns city pairs with the most passenger trips
     return top_passenger_trips
 
 
