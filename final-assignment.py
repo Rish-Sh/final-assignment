@@ -199,8 +199,8 @@ def compare_two_city_pairs_passenegr_trip_trends(pair1, pair2, canvas):
     # Update the canvas with the new plot of the passenger trips trends of the two city pairs
     update_dashboard_canvas(fig, canvas)
 
-
-def analyze_load_factor(city1, city2, canvas):
+# Function to analyze the load factor of a city pair
+def analyze_city_pair_load_factor(city1, city2, canvas):
     """
     Analyze and plot the load factor for a specific city pair.
     Retrieves the data for the given city pair from the global 'data' DataFrame and plots the load factor over time.
@@ -221,7 +221,7 @@ def analyze_load_factor(city1, city2, canvas):
         and includes a legend and appropriate labels for both axes.
 
     Example:
-        analyze_load_factor('Sydney', 'Melbourne', canvas)
+        analyze_city_pair_load_factor('Sydney', 'Melbourne', canvas)
 
         This will query the dataset for flights between Sydney and Melbourne and plot the load factor
         trend on the canvas. The graph will have 'Date' on the x-axis and 'Load Factor (%)' on the y-axis.
@@ -230,7 +230,7 @@ def analyze_load_factor(city1, city2, canvas):
     """
 
     # Query the dataset for the specified city pair
-    pair_data = data.query("City1 == @city1 and City2 == @city2")
+    pair_data = get_city_pair_data(city1, city2)
 
     # If no data is found for the city pair, display a popup and return early
     if pair_data.empty:
@@ -640,7 +640,7 @@ def create_dashboard_window():
         [sg.Button('Explore Data', key='-EXPLORE_DATA-')],
         [sg.Button('Show Passenger Trips Trend', key='-SHOW_TREND-')],
         [sg.Button('Compare Passenger Trips Trends of Two City Pairs', key='-COMPARE_CITY_PAIRS-')],
-        [sg.Button('Analyze Load Factor of City Pair', key='-ANALYZE_LOAD_FACTOR-')],
+        [sg.Button('Analyze Load Factor of City Pair', key='-analyze_city_pair_load_factor-')],
         [sg.Button('City Specific Data Summary', key='-CITY_SUMMARY-')],
         [sg.Button('Distance vs Passenger Load analysis', key='-DIST_VS_LOAD-')],
         [sg.Button('Exit')]
@@ -812,7 +812,7 @@ def load_factor_analysis_window():
             
             # Proceed only if both city names are provided
             if city1 and city2:
-                analyze_load_factor(city1, city2, canvas)
+                analyze_city_pair_load_factor(city1, city2, canvas)
             else:
                 # Prompt user for missing city names
                 sg.popup("Both City 1 and City 2 are required for load factor analysis.")
@@ -965,7 +965,7 @@ Functions:
 - Triggers different analysis windows based on user interaction:
     - '-SHOW_TREND-': Opens the trend analysis window.
     - '-COMPARE_CITY_PAIRS-': Opens the window for comparing city pairs.
-    - '-ANALYZE_LOAD_FACTOR-': Opens the load factor analysis window.
+    - '-analyze_city_pair_load_factor-': Opens the load factor analysis window.
     - '-EXPLORE_DATA-': Opens the data exploration window.
     - '-CITY_SUMMARY-': Opens the city summary window.
     - '-DIST_VS_LOAD-': Opens the distance vs passenger load analysis window.
@@ -995,7 +995,7 @@ while True:
         compare_city_pairs_window()
 
         # Handle event for analyzing load factor
-    elif event == '-ANALYZE_LOAD_FACTOR-':
+    elif event == '-analyze_city_pair_load_factor-':
         load_factor_analysis_window()
 
         # Handle event for data exploration
