@@ -291,12 +291,26 @@ def calculate_city_stats(city, dataset):
 
     # Calculate the total number of trips and the average load factor.
     total_trips = city_data.shape[0]
-    avg_load_factor = city_data['Passenger_Load_Factor'].mean() if total_trips > 0 else float('nan')
+    
+    # Checks if total trips are zero
+    total_trips_is_zero = total_trips == 0
 
-    # Determine the most traveled to city.
-    most_traveled_to_city = (city_data['City2'].mode()[0]
-                             if not city_data['City2'].empty
-                             else "No data")
+    # Checks if city_data is empty
+    city_data_is_empty = city_data['City2'].empty
+
+    # Calculate average Passenger Load Factor
+    if total_trips_is_zero:
+        # There are no trips, set average load factor to "nan"
+        avg_load_factor = "nan"
+    else:
+        # There are trips, calculate average passenger load factor
+        avg_load_factor = city_data['Passenger_Load_Factor'].mean()
+
+    # Determine the most traveled to city
+    if not city_data_is_empty:
+        most_traveled_to_city = city_data['City2'].mode()[0]
+    else:
+        most_traveled_to_city = "No data"
 
     # Construct the results dictionary.
     results = {
@@ -304,7 +318,7 @@ def calculate_city_stats(city, dataset):
         'avg_load_factor': avg_load_factor,
         'most_traveled_to_city': most_traveled_to_city
     }
-
+    # Returns the results of summary
     return results
 
 
