@@ -491,6 +491,7 @@ def filter_highest_load_factor(data) -> pd.DataFrame:
 
     Returns:
     - highest_load_factor (DataFrame): The top 10 entries sorted by passenger load factor.
+    
     Examples:
     sample_data = pd.DataFrame({
         'City1': ['Sydney', 'Melbourne', 'Brisbane', 'Perth', 'Adelaide',
@@ -516,7 +517,7 @@ def filter_highest_load_factor(data) -> pd.DataFrame:
 
 
 # Function to filter the data for the city pairs with the lowest load factor
-def filter_lowest_load_factor(data):
+def filter_lowest_load_factor(data) -> pd.DataFrame:
     """
     Sorts and filters the dataset to find the top 10 entries with the lowest passenger load factor.
 
@@ -529,13 +530,29 @@ def filter_lowest_load_factor(data):
 
     Returns:
     - lowest_load_factor (DataFrame): The top 10 entries sorted by the lowest passenger load factor.
+    
+    Examples:
+    sample_data = pd.DataFrame({
+        'City1': ['Sydney', 'Melbourne', 'Brisbane', 'Perth', 'Adelaide', 
+        'Canberra', 'Hobart', 'Darwin', 'Gold Coast', 'Newcastle'],
+        'City2': ['Melbourne', 'Sydney', 'Perth', 'Brisbane', 'Canberra', 
+        'Adelaide', 'Darwin', 'Hobart', 'Newcastle', 'Gold Coast'],
+        'Passenger_Load_Factor': [45, 50, 55, 60, 65, 70, 75, 80, 85, 90]
+        })
+    lowest_load_factors = filter_lowest_load_factor(sample_data)
+    print(lowest_load_factors)
+    This will output the top 10 city pairs from the sample_data DataFrame, 
+    consisting of Australian cities, sorted by 'Passenger_Load_Factor' in ascending order 
+    (i.e., showing the lowest load factors first).
     """
 
+    # Sorting data by lowest passenger load factor
     sorted_data = data.sort_values(by='Passenger_Load_Factor', ascending=True)
 
     # Retrieves the top 10 rows with the lowest 'Passenger_Load_Factor'
     lowest_load_factor = sorted_data.head(10)
 
+    # Returns city pairs with lowest passenger load factor
     return lowest_load_factor
 
 
