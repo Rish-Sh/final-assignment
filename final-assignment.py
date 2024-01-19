@@ -178,15 +178,15 @@ def compare_two_city_pairs_passenegr_trip_trends(pair1, pair2, canvas):
     fig, ax = plt.subplots(figsize=(5, 4))
 
     # Loop through each city pair and plot their data
-    for pair in [pair1, pair2]:
-        city1, city2 = pair.split(' - ')
+    for city_pair in [pair1, pair2]:
+        city1, city2 = city_pair.split(' - ')
 
         # Use the get_city_pair_data function to retrieve data for each city pair
-        pair_data = get_city_pair_data(city1, city2)
+        city_pair_data = get_city_pair_data(city1, city2)
 
         # Continue only if there is data for the city pair
-        if pair_data is not None:
-            ax.plot(pair_data['Date'], pair_data['Passenger_Trips'], label=f"{city1} - {city2}")
+        if city_pair_data is not None:
+            ax.plot(city_pair_data['Date'], city_pair_data['Passenger_Trips'], label=f"{city1} - {city2}")
 
     # Set plot titles and labels
     ax.set_title('Comparison of Passenger Trips Between Two City Pairs')
@@ -199,6 +199,7 @@ def compare_two_city_pairs_passenegr_trip_trends(pair1, pair2, canvas):
     # Update the canvas with the new plot of the passenger trips trends of the two city pairs
     update_dashboard_canvas(fig, canvas)
 
+
 # Function to analyze the load factor of a city pair
 def analyze_city_pair_load_factor(city1, city2, canvas):
     """
@@ -207,11 +208,8 @@ def analyze_city_pair_load_factor(city1, city2, canvas):
     If no data is found, a popup will alert the user.
 
     Arguments:
-
     city1: The first city in the city pair.
-
     city2: The second city in the city pair.
-
     canvas: The Tkinter canvas object to update with the plot.
 
     Results:
@@ -230,18 +228,18 @@ def analyze_city_pair_load_factor(city1, city2, canvas):
     """
 
     # Query the dataset for the specified city pair
-    pair_data = get_city_pair_data(city1, city2)
+    city_pair_data = get_city_pair_data(city1, city2)
 
     # If no data is found for the city pair, display a popup and return early
-    if pair_data.empty:
+    if city_pair_data.empty:
         popup_message = f"No data found for the city pair: {city1} - {city2}"
         sg.popup(popup_message)
         return
 
     # Begin plotting the data if it exists.
     fig = plt.figure(figsize=(5, 4))
-    plot_dates = pair_data['Date']
-    plot_values = pair_data['Passenger_Load_Factor']
+    plot_dates = city_pair_data['Date']
+    plot_values = city_pair_data['Passenger_Load_Factor']
     plt.plot(plot_dates, plot_values, label="Passenger Load Factor")
 
     # Configure plot aesthetics.
