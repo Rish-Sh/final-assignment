@@ -188,3 +188,6 @@ class TestCalculateCityStats(unittest.TestCase):
             'most_traveled_to_city': 'New York'
         }
         self.assertEqual(result, expected)
+
+if __name__ == '__main__':
+    unittest.main()
