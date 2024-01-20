@@ -4,7 +4,8 @@ from unittest.mock import MagicMock, patch, create_autospec
 from matplotlib.figure import Figure
 import tkinter
 from main_dashboard import update_dashboard_canvas, get_city_pair_data, plot_passenger_trips_trend,\
-    compare_two_city_pairs_passenger_trip_trends
+    compare_two_city_pairs_passenger_trip_trends, analyze_city_pair_load_factor, calculate_city_stats, \
+    analyze_distance_vs_load
 from data_cleaning_formatting import load_and_clean_data
 
 class TestUpdateDashboardCanvas(unittest.TestCase):
@@ -154,10 +155,6 @@ class TestAnalyzeCityPairLoadFactor(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
-
-import pandas as pd
-import unittest
-from your_module import calculate_city_stats  # Replace 'your_module' with the actual name of your module
 
 class TestCalculateCityStats(unittest.TestCase):
 
