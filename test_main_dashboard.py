@@ -170,5 +170,22 @@ class TestCalculateCityStats(unittest.TestCase):
             'Passenger_Load_Factor': [80, 75, 85, 90, 65]
         }
         cls.dataset = pd.DataFrame(data)
+    def test_regular_city(self):
+        expected_result = {
+            'total_trips': 3,
+            'avg_load_factor': 80.0,
+            'most_traveled_to_city': 'Los Angeles'
+        }
+        result = calculate_city_stats('New York', self.dataset)
+        self.assertEqual(result, expected_result)
+
+    def test_city_with_no_trips(self):
+        expected_result = {
+            'total_trips': 0,
+            'avg_load_factor': 'nan',
+            'most_traveled_to_city': 'No data'
+        }
+        result = calculate_city_stats('San Francisco', self.dataset)
+        self.assertEqual(result, expected_result)
 
   
