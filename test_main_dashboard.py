@@ -27,7 +27,7 @@ class TestUpdateDashboardCanvas(unittest.TestCase):
 
 
 class TestGetCityPairData(unittest.TestCase):
-    def setUp(self):
+    def setup(self):
         # Assuming load_and_clean_data returns a cleaned DataFrame
         self.sample_data = load_and_clean_data('dom_city_pair.csv')
 
