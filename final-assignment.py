@@ -574,6 +574,33 @@ def data_exploration_window():
     - Exiting the window when 'Back' or window close event occurs.
 
     The GUI uses PySimpleGUI for layout and event handling.
+
+    Example:
+    To use this function, simply call `data_exploration_window()` in a script where 'data' is a pandas DataFrame containing
+    flight information with columns like 'City1', 'City2', 'Date', 'Passenger_Load_Factor', etc.
+
+    The function creates a window that looks like this:
+
+    +------------------------------------------------------+
+    | Filter Options:                                      |
+    | [City 1: __________] [City 2: __________]            |
+    | [Date Range: __________ to __________]               |
+    | [Most Passenger Trips] [Most Aircraft Trips]         |
+    | [Highest Passenger Load Factor Trips]                |
+    | [Lowest Passenger Load Factor Trips]                 |
+    | [Apply Filter] [Reset Filter]                        |
+    |                                                      |
+    | Table displaying data                                |
+    | [Row of data]                                        |
+    | [Row of data]                                        |
+    | ...                                                  |
+    |                                                      |
+    | [Back]                                               |
+    +------------------------------------------------------+
+
+    When the user interacts with the window by selecting filter options and clicking buttons,
+    the data displayed in the table is updated accordingly. The window remains active until
+    the user clicks 'Back' or closes the window.
     """
 
     # Define the layout of the window with various UI elements
@@ -666,6 +693,23 @@ def apply_filters(values):
     Notes:
     - The function handles partial filtering; if certain filters are not specified,
       the corresponding data remains unfiltered.
+
+    Example:
+    Assume we have a pandas DataFrame 'data' with columns ['City1', 'City2', 'Date', 'Passenger_Load_Factor'].
+    To filter this data for flights between 'Melbourne' and 'Sydney' from '2008-01-01' to '2009-03-31', 
+    we would pass the following dictionary to `apply_filters`:
+
+    filter_values = {
+        '-FILTER_CITY1-': 'Melbourne',
+        '-FILTER_CITY2-': 'Sydney',
+        '-DATE_START-': '2008-01-01',
+        '-DATE_END-': '2009-03-31'
+    }
+
+    filtered_data = apply_filters(filter_values)
+
+    This would return a DataFrame containing only the flights that match these criteria.
+      
     """
 
     # Start with the original dataset
@@ -713,6 +757,22 @@ def create_dashboard_window():
 
     Returns:
     sg.Window: The main dashboard window of the application with the specified layout and size.
+    
+    Example:
+    When `create_dashboard_window()` is called, it creates a window that looks like this:
+
+    +-----------------------------------------------------------+
+    | Choose an analysis option:                                |
+    | [Explore Data] [Show Passenger Trips Trend]               |
+    | [Compare Passenger Trips Trends of Two City Pairs]        |
+    | [Analyze Load Factor of City Pair] [City Specific Summary]|
+    | [Distance vs Passenger Load analysis] [Exit]              |
+    +-----------------------------------------------------------+
+
+    Each button in the window triggers a different analysis or action. For instance, clicking 'Explore Data'
+    would open a new window to explore the dataset, while 'Show Passenger Trips Trend' would display a graphical
+    representation of passenger trips over time. The 'Exit' button closes the application.
+    
     """
     
     # Layout definition for the main GUI window
