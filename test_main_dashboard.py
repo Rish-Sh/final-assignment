@@ -208,3 +208,22 @@ class TestCalculateCityStats(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+class TestAnalyzeDistanceVsLoad(unittest.TestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        # Sample data setup
+        cls.data = pd.DataFrame({
+            'Distance_GC_(km)': [100, 200, 300, 400, 500],
+            'Passenger_Load_Factor': [70, 80, 90, 65, 75]
+        })
+
+    def setUp(self):
+        # Setting up a tkinter canvas for the plot
+        self.root = Tk()
+        self.canvas = Canvas(self.root, width=600, height=500)
+
+if __name__ == '__main__':
+    unittest.main()
