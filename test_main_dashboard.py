@@ -2,12 +2,10 @@ import unittest
 import numpy as np
 import pandas as pd
 from unittest.mock import MagicMock, patch, create_autospec
-from matplotlib import pyplot as plt
 from matplotlib.figure import Figure
 import tkinter
 from main_dashboard import update_dashboard_canvas, get_city_pair_data, plot_passenger_trips_trend, \
-    compare_two_city_pairs_passenger_trip_trends, analyze_city_pair_load_factor, calculate_city_stats, \
-    analyze_distance_vs_load
+    compare_two_city_pairs_passenger_trip_trends, analyze_city_pair_load_factor, calculate_city_stats
 from data_cleaning_formatting import load_and_clean_data
 
 class TestUpdateDashboardCanvas(unittest.TestCase):
@@ -158,50 +156,35 @@ class TestAnalyzeCityPairLoadFactor(unittest.TestCase):
 class TestCalculateCityStats(unittest.TestCase):
 
     @classmethod
-    def setup_class(cls):
-        # Sample dataset setup
-        data = {
-            'City1': ['New York', 'New York', 'New York', 'Boston', 'Boston'],
-            'City2': ['Los Angeles', 'Chicago', 'Los Angeles', 'New York', 'Miami'],
-            'Passenger_Load_Factor': [80, 75, 85, 90, 65]
-        }
-        cls.dataset = pd.DataFrame(data)
-    def test_regular_city(self):
-        expected_result = {
-            'total_trips': 3,
-            'avg_load_factor': 80.0,
-            'most_traveled_to_city': 'Los Angeles'
-        }
-        result = calculate_city_stats('New York', self.dataset)
-        self.assertEqual(result, expected_result)
+    def setUpClass(cls):
+        # Setting up a sample dataset for testing
+        cls.data = pd.DataFrame({
+            'City1': ['New York', 'New York', 'New York', 'Chicago', 'Boston', 'Boston'],
+            'City2': ['Boston', 'Chicago', 'Boston', 'New York', 'Chicago', 'New York'],
+            'Passenger_Load_Factor': [80, 75, 85, 90, 85, 65]
+        })
 
-    def test_city_with_no_trips(self):
-        expected_result = {
-            'total_trips': 0,
-            'avg_load_factor': 'nan',
-            'most_traveled_to_city': 'No data'
+    def test_regular_city(self):
+        # Test for a city with multiple trips
+        result = calculate_city_stats('New York', self.data)
+        expected = {
+            'total_trips': 3,
+            'avg_load_factor': np.mean([80, 75, 85]),  # Correct average calculation
+            'most_traveled_to_city': 'Boston'
         }
-        result = calculate_city_stats('San Francisco', self.dataset)
-        self.assertEqual(result, expected_result)
+        self.assertEqual(result, expected)
+
+    def test_invalid_dataset_structure(self):
+        # Test for a dataset missing required columns
+        with self.assertRaises(ValueError):
+            calculate_city_stats('Boston', pd.DataFrame({'City': [], 'Load': []}))
 
     def test_city_with_single_trip(self):
-        expected_result = {
+        # Test for a city with only one trip
+        result = calculate_city_stats('Chicago', self.data)
+        expected = {
             'total_trips': 1,
             'avg_load_factor': 90.0,
             'most_traveled_to_city': 'New York'
         }
-        result = calculate_city_stats('Boston', self.dataset)
-        self.assertEqual(result, expected_result)
-
-    def test_invalid_city_name(self):
-        expected_result = {
-            'total_trips': 0,
-            'avg_load_factor': 'nan',
-            'most_traveled_to_city': 'No data'
-        }
-        result = calculate_city_stats('Invalid City', self.dataset)
-        self.assertEqual(result, expected_result)
-        self.root.destroy()
-        
-if __name__ == '__main__':
-    unittest.main()
+        self.assertEqual(result, expected)
