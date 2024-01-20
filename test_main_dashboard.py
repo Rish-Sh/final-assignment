@@ -1,9 +1,11 @@
 import unittest
+import numpy as np
 import pandas as pd
 from unittest.mock import MagicMock, patch, create_autospec
+from matplotlib import pyplot as plt
 from matplotlib.figure import Figure
 import tkinter
-from main_dashboard import update_dashboard_canvas, get_city_pair_data, plot_passenger_trips_trend,\
+from main_dashboard import update_dashboard_canvas, get_city_pair_data, plot_passenger_trips_trend, \
     compare_two_city_pairs_passenger_trip_trends, analyze_city_pair_load_factor, calculate_city_stats, \
     analyze_distance_vs_load
 from data_cleaning_formatting import load_and_clean_data
@@ -182,7 +184,7 @@ class TestCalculateCityStats(unittest.TestCase):
         result = calculate_city_stats('San Francisco', self.dataset)
         self.assertEqual(result, expected_result)
 
-  def test_city_with_single_trip(self):
+    def test_city_with_single_trip(self):
         expected_result = {
             'total_trips': 1,
             'avg_load_factor': 90.0,
