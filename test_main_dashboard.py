@@ -1,8 +1,9 @@
 import unittest
+import pandas as pd
 from unittest.mock import MagicMock, patch, create_autospec
 from matplotlib.figure import Figure
 import tkinter
-from main_dashboard import update_dashboard_canvas, get_city_pair_data 
+from main_dashboard import update_dashboard_canvas, get_city_pair_data, plot_passenger_trips_trend
 from data_cleaning_formatting import load_and_clean_data
 
 class TestUpdateDashboardCanvas(unittest.TestCase):
@@ -33,6 +34,36 @@ class TestGetCityPairData(unittest.TestCase):
         result = get_city_pair_data('Adelaide', 'Brisbane')
         self.assertFalse(result.empty)
         self.assertEqual(len(result), 475)  # Assuming there's 1 row for this city pair
+
+
+class TestPlotPassengerTripsTrend(unittest.TestCase):
+    @patch('main_dashboard.sg.popup')  # Mock the popup function
+    def test_empty_data(self, mock_popup):
+        empty_data = pd.DataFrame()  # Create an empty DataFrame
+        mock_canvas = create_autospec(tkinter.Canvas, instance=True)
+
+        # Call the function with empty data
+        plot_passenger_trips_trend(empty_data, mock_canvas)
+
+        # Assert that the popup was called
+        mock_popup.assert_called_once_with("No data found for the city pair")
+
+    @patch('main_dashboard.update_dashboard_canvas')
+    def test_non_empty_data(self, mock_update_canvas):
+        # Create a non-empty DataFrame as sample data
+        sample_data = pd.DataFrame({
+            'City1': ['Adelaide'],
+            'City2': ['Brisbane'],
+            'Date': [pd.Timestamp('2020-01-01')],
+            'Passenger_Trips': [100]
+        })
+        mock_canvas = create_autospec(tkinter.Canvas, instance=True)
+
+        # Call the function with sample data
+        plot_passenger_trips_trend(sample_data, mock_canvas)
+
+        # Assert that the update_dashboard_canvas function was called
+        self.assertTrue(mock_update_canvas.called)
 
 
 if __name__ == '__main__':
