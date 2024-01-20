@@ -240,5 +240,9 @@ class TestAnalyzeDistanceVsLoad(unittest.TestCase):
         # Assert
         self.assertAlmostEqual(correlation_value, expected_correlation, places=2)
         
+    def tearDown(self):
+        # Close the tkinter window
+        self.root.destroy()
+        
 if __name__ == '__main__':
     unittest.main()
