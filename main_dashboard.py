@@ -178,6 +178,9 @@ def compare_two_city_pairs_passenger_trip_trends(pair1, pair2, canvas):
     # Set up the figure for plotting
     fig, ax = plt.subplots(figsize=(5, 4))
 
+    # Define data is plotted case
+    data_is_plotted = False
+
     # Loop through each city pair and plot their data
     for city_pair in [pair1, pair2]:
         city1, city2 = city_pair.split(' - ')
@@ -188,17 +191,21 @@ def compare_two_city_pairs_passenger_trip_trends(pair1, pair2, canvas):
         # Continue only if there is data for the city pair
         if city_pair_data is not None:
             ax.plot(city_pair_data['Date'], city_pair_data['Passenger_Trips'], label=f"{city1} - {city2}")
+            data_is_plotted = True
 
-    # Set plot titles and labels
-    ax.set_title('Comparison of Passenger Trips Between Two City Pairs')
-    ax.set_xlabel('Date')
-    ax.set_ylabel('Passenger Trips')
-    plt.xticks(rotation=45)
-    ax.legend()
-    plt.tight_layout()
-
-    # Update the canvas with the new plot of the passenger trips trends of the two city pairs
-    update_dashboard_canvas(fig, canvas)
+    # Check if data is plotted
+    if data_is_plotted:
+        
+        # Set plot titles and labels
+        ax.set_title('Comparison of Passenger Trips Between Two City Pairs')
+        ax.set_xlabel('Date')
+        ax.set_ylabel('Passenger Trips')
+        plt.xticks(rotation=45)
+        ax.legend()
+        plt.tight_layout()
+    
+        # Update the canvas with the new plot of the passenger trips trends of the two city pairs
+        update_dashboard_canvas(fig, canvas)
 
 
 # Function to analyze the load factor of a city pair
