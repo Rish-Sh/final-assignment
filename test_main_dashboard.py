@@ -188,4 +188,23 @@ class TestCalculateCityStats(unittest.TestCase):
         result = calculate_city_stats('San Francisco', self.dataset)
         self.assertEqual(result, expected_result)
 
-  
+  def test_city_with_single_trip(self):
+        expected_result = {
+            'total_trips': 1,
+            'avg_load_factor': 90.0,
+            'most_traveled_to_city': 'New York'
+        }
+        result = calculate_city_stats('Boston', self.dataset)
+        self.assertEqual(result, expected_result)
+
+    def test_invalid_city_name(self):
+        expected_result = {
+            'total_trips': 0,
+            'avg_load_factor': 'nan',
+            'most_traveled_to_city': 'No data'
+        }
+        result = calculate_city_stats('Invalid City', self.dataset)
+        self.assertEqual(result, expected_result)
+
+if __name__ == '__main__':
+    unittest.main()
