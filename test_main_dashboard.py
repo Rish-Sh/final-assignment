@@ -2,8 +2,8 @@ import unittest
 from unittest.mock import MagicMock, patch, create_autospec
 from matplotlib.figure import Figure
 import tkinter
-
-from main_dashboard import update_dashboard_canvas  # Use the correct module name here
+from main_dashboard import update_dashboard_canvas, get_city_pair_data 
+from data_cleaning_formatting import load_and_clean_data
 
 class TestUpdateDashboardCanvas(unittest.TestCase):
     @patch('main_dashboard.FigureCanvasTkAgg')  # Use the correct module name here
