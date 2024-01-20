@@ -5,7 +5,8 @@ from unittest.mock import MagicMock, patch, create_autospec
 from matplotlib.figure import Figure
 import tkinter
 from main_dashboard import update_dashboard_canvas, get_city_pair_data, plot_passenger_trips_trend, \
-    compare_two_city_pairs_passenger_trip_trends, analyze_city_pair_load_factor, calculate_city_stats
+    compare_two_city_pairs_passenger_trip_trends, analyze_city_pair_load_factor, calculate_city_stats, \
+    create_dashboard_window
 from data_cleaning_formatting import load_and_clean_data
 
 class TestUpdateDashboardCanvas(unittest.TestCase):
@@ -188,6 +189,29 @@ class TestCalculateCityStats(unittest.TestCase):
             'most_traveled_to_city': 'New York'
         }
         self.assertEqual(result, expected)
+
+class TestCreateDashboardWindow(unittest.TestCase):
+
+    @patch('main_dashboard.sg.Window')
+    @patch('main_dashboard.get_dashboard_layout')
+    def test_create_dashboard_window(self, mock_get_dashboard_layout, mock_window):
+        # Set up the mock for the dashboard layout
+        mock_layout = MagicMock()
+        mock_get_dashboard_layout.return_value = mock_layout
+
+        # Call the function to test
+        window = create_dashboard_window()
+
+        # Assert that get_dashboard_layout was called
+        mock_get_dashboard_layout.assert_called_once()
+
+        # Assert that sg.Window was called with the correct parameters
+        mock_window.assert_called_once_with('Australia Domestic Flights Analysis',
+                                            layout=mock_layout,
+                                            size=(400, 250))
+
+        # Instead of isinstance check, assert that the mock was called to simulate window creation
+        self.assertTrue(mock_window.called)
 
 if __name__ == '__main__':
     unittest.main()
