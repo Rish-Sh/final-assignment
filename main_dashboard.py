@@ -96,7 +96,7 @@ def get_city_pair_data(city1, city2) -> pd.DataFrame:
 
     # If no data is found for the specified city pair display a popup
     if city_pair_data is None:
-        return
+        return None
     else:
         return city_pair_data
 
