@@ -800,7 +800,7 @@ def create_dashboard_window():
     """
 
     # Returns the main dashboard window
-    return sg.Window('Australia Domestic Flights Analysis', layout=get_dashboard_layout, size=(400, 250))
+    return sg.Window('Australia Domestic Flights Analysis', layout=get_dashboard_layout(), size=(400, 250))
 
 
 # Function to create and handle the trend analysis window
