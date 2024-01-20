@@ -114,6 +114,44 @@ class TestCompareTwoCityPairsPassengerTripTrends(unittest.TestCase):
         mock_update_canvas.assert_not_called()
 
 
+class TestAnalyzeCityPairLoadFactor(unittest.TestCase):
+    @patch('main_dashboard.get_city_pair_data')
+    @patch('main_dashboard.sg.popup')
+    @patch('main_dashboard.update_dashboard_canvas')
+    def test_no_data_found(self, mock_update_canvas, mock_popup, mock_get_city_pair_data):
+        # Setup for no data found scenario
+        mock_get_city_pair_data.return_value = pd.DataFrame()
+
+        mock_canvas = MagicMock(spec=tkinter.Canvas)
+
+        # Call the function
+        analyze_city_pair_load_factor('City1', 'City2', mock_canvas)
+
+        # Verify that a popup was shown and the canvas was not updated
+        mock_popup.assert_called_once_with("No data found for the city pair: City1 - City2")
+        mock_update_canvas.assert_not_called()
+
+    @patch('main_dashboard.get_city_pair_data')
+    @patch('main_dashboard.update_dashboard_canvas')
+    def test_data_found_and_plotting(self, mock_update_canvas, mock_get_city_pair_data):
+        # Setup for data found scenario
+        mock_data = pd.DataFrame({
+            'Date': pd.date_range(start='2020-01-01', periods=3, freq='D'),
+            'Passenger_Load_Factor': [70, 80, 75]
+        })
+        mock_get_city_pair_data.return_value = mock_data
+
+        mock_canvas = MagicMock(spec=tkinter.Canvas)
+
+        # Call the function
+        analyze_city_pair_load_factor('City1', 'City2', mock_canvas)
+
+        # Verify that the plot was updated
+        mock_update_canvas.assert_called_once()
+        args, kwargs = mock_update_canvas.call_args
+        self.assertIsInstance(args[0], Figure)  # Verify a matplotlib figure was used
+
+
 if __name__ == '__main__':
     unittest.main()
 
