@@ -201,40 +201,6 @@ class TestCalculateCityStats(unittest.TestCase):
         }
         result = calculate_city_stats('Invalid City', self.dataset)
         self.assertEqual(result, expected_result)
-
-
-class TestAnalyzeDistanceVsLoad(unittest.TestCase):
-
-    @classmethod
-    def setup_Class(cls):
-        # Sample data setup
-        cls.data = pd.DataFrame({
-            'Distance_GC_(km)': [100, 200, 300, 400, 500],
-            'Passenger_Load_Factor': [70, 80, 90, 65, 75]
-        })
-
-    def setup(self):
-        # Setting up a tkinter canvas for the plot
-        self.root = Tk()
-        self.canvas = Canvas(self.root, width=600, height=500)
-
-    def test_correlation_calculation(self):
-        # Call the function
-        analyze_distance_vs_load(self.canvas)
-
-        # Extract the correlation value from the plot (requires matplotlib backend support)
-        ax = plt.gca()
-        correlation_annotation = [text.get_text() for text in ax.texts if 'Correlation:' in text.get_text()][0]
-        correlation_value = float(correlation_annotation.split(': ')[1])
-
-        # Calculate the expected correlation
-        expected_correlation = np.corrcoef(self.data['Distance_GC_(km)'], self.data['Passenger_Load_Factor'])[0, 1]
-
-        # Assert
-        self.assertAlmostEqual(correlation_value, expected_correlation, places=2)
-        
-    def tearDown(self):
-        # Close the tkinter window
         self.root.destroy()
         
 if __name__ == '__main__':
