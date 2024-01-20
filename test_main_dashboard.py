@@ -155,3 +155,20 @@ class TestAnalyzeCityPairLoadFactor(unittest.TestCase):
 if __name__ == '__main__':
     unittest.main()
 
+import pandas as pd
+import unittest
+from your_module import calculate_city_stats  # Replace 'your_module' with the actual name of your module
+
+class TestCalculateCityStats(unittest.TestCase):
+
+    @classmethod
+    def setup_class(cls):
+        # Sample dataset setup
+        data = {
+            'City1': ['New York', 'New York', 'New York', 'Boston', 'Boston'],
+            'City2': ['Los Angeles', 'Chicago', 'Los Angeles', 'New York', 'Miami'],
+            'Passenger_Load_Factor': [80, 75, 85, 90, 65]
+        }
+        cls.dataset = pd.DataFrame(data)
+
+  
