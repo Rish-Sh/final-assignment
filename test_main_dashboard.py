@@ -153,9 +153,6 @@ class TestAnalyzeCityPairLoadFactor(unittest.TestCase):
         self.assertIsInstance(args[0], Figure)  # Verify a matplotlib figure was used
 
 
-if __name__ == '__main__':
-    unittest.main()
-
 class TestCalculateCityStats(unittest.TestCase):
 
     @classmethod
@@ -202,9 +199,6 @@ class TestCalculateCityStats(unittest.TestCase):
         }
         result = calculate_city_stats('Invalid City', self.dataset)
         self.assertEqual(result, expected_result)
-
-if __name__ == '__main__':
-    unittest.main()
 
 
 class TestAnalyzeDistanceVsLoad(unittest.TestCase):
