@@ -736,11 +736,10 @@ def apply_filters(values):
     # Return the filtered dataset
     return filtered_data
 
-
-# Function to create the overall dashboard
-def create_dashboard_window():
+#Function to get dashboard layout
+def get_dashboard_layout():
     """
-    Creates and returns the main dashboard window for the Australia Domestic Flights Analysis application.
+    Creates and returns the layout for the main dashboard window.
 
     This function sets up the graphical user interface for the application's main dashboard. It offers
     several analysis options, each represented by a button, allowing the user to explore different aspects
@@ -758,6 +757,31 @@ def create_dashboard_window():
     Returns:
     sg.Window: The main dashboard window of the application with the specified layout and size.
     
+    Returns:
+    list: The layout of the dashboard window.
+    """
+    layout = [
+        [sg.Text("Choose an analysis option:")],
+        [sg.Button('Explore Data', key='-EXPLORE_DATA-')],
+        [sg.Button('Show Passenger Trips Trend', key='-SHOW_TREND-')],
+        [sg.Button('Compare Passenger Trips Trends of Two City Pairs', key='-COMPARE_CITY_PAIRS-')],
+        [sg.Button('Analyze Load Factor of City Pair', key='-analyze_city_pair_load_factor-')],
+        [sg.Button('City Specific Data Summary', key='-CITY_SUMMARY-')],
+        [sg.Button('Distance vs Passenger Load analysis', key='-DIST_VS_LOAD-')],
+        [sg.Button('Exit')]
+    ]
+    return layout
+    
+# Function to create the overall dashboard
+def create_dashboard_window():
+    """
+    Creates and returns the main dashboard window for the Australia Domestic Flights Analysis application.
+
+    Utilizes the layout defined in get_dashboard_layout.
+
+    Returns:
+    sg.Window: The main dashboard window of the application.
+
     Example:
     When `create_dashboard_window()` is called, it creates a window that looks like this:
 
@@ -774,18 +798,6 @@ def create_dashboard_window():
     representation of passenger trips over time. The 'Exit' button closes the application.
     
     """
-    
-    # Layout definition for the main GUI window
-    layout = [
-        [sg.Text("Choose an analysis option:")],
-        [sg.Button('Explore Data', key='-EXPLORE_DATA-')],
-        [sg.Button('Show Passenger Trips Trend', key='-SHOW_TREND-')],
-        [sg.Button('Compare Passenger Trips Trends of Two City Pairs', key='-COMPARE_CITY_PAIRS-')],
-        [sg.Button('Analyze Load Factor of City Pair', key='-analyze_city_pair_load_factor-')],
-        [sg.Button('City Specific Data Summary', key='-CITY_SUMMARY-')],
-        [sg.Button('Distance vs Passenger Load analysis', key='-DIST_VS_LOAD-')],
-        [sg.Button('Exit')]
-    ]
 
     # Returns the main dashboard window
     return sg.Window('Australia Domestic Flights Analysis', layout, size=(400, 250))
