@@ -558,7 +558,7 @@ def filter_lowest_load_factor(data) -> pd.DataFrame:
 
 
 # Function to create and handle the data exploration window
-def data_exploration_window():
+def create_data_exploration_window():
     """
     Creates and manages a data exploration window with various filtering options.
 
@@ -576,7 +576,7 @@ def data_exploration_window():
     The GUI uses PySimpleGUI for layout and event handling.
 
     Example:
-    To use this function, simply call `data_exploration_window()` in a script where 'data' is a pandas DataFrame containing
+    To use this function, simply call `create_data_exploration_window()` in a script where 'data' is a pandas DataFrame containing
     flight information with columns like 'City1', 'City2', 'Date', 'Passenger_Load_Factor', etc.
 
     The function creates a window that looks like this:
@@ -792,7 +792,7 @@ def create_dashboard_window():
 
 
 # Function to create and handle the trend analysis window
-def trend_analysis_window():
+def create_trend_analysis_window():
     """
     Creates and manages the passenger trips trend analysis window.
 
@@ -963,9 +963,9 @@ def load_factor_analysis_window():
 
 
 # Function to create the city summary window
-def city_summary_window():
+def create_city_summary_window():
     """
-    The city_summary_window function creates and manages a window for displaying city-specific data summaries.
+    The create_city_summary_window function creates and manages a window for displaying city-specific data summaries.
     The window includes a dropdown menu for selecting a city and buttons for showing the summary and going back.
     
     The function follows these steps:
@@ -1039,7 +1039,7 @@ def city_summary_window():
 
 
 # Function to create the distance vs load factor window
-def distance_vs_load_window():
+def create_distance_vs_load_window():
     """
     Creates and manages a GUI window for analyzing the relationship between distance and
     passenger load. The window includes a button to start the analysis, a canvas for
@@ -1130,7 +1130,7 @@ while True:
 
         # Handle event for showing trend analysis
     elif event == '-SHOW_TREND-':
-        trend_analysis_window()
+        create_trend_analysis_window()
 
         # Handle event for comparing city pairs
     elif event == '-COMPARE_CITY_PAIRS-':
@@ -1142,15 +1142,15 @@ while True:
 
         # Handle event for data exploration
     elif event == '-EXPLORE_DATA-':
-        data_exploration_window()
+        create_data_exploration_window()
 
         # Handle event for showing city summary
     elif event == '-CITY_SUMMARY-':
-        city_summary_window()
+        create_city_summary_window()
 
         # Handle event for analyzing distance vs passenger load
     elif event == '-DIST_VS_LOAD-':
-        distance_vs_load_window()
+        create_distance_vs_load_window()
 
 # Close the dashboard window after exiting the loop
 dashboard_window.close()
